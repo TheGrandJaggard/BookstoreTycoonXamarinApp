@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bookstore_Tycoon.App">
+
+    <!-- Resources used by multiple pages in the application -->
+    <Application.Resources>
+
+        <Thickness x:Key="PageMargin">20</Thickness>
+
+        <!-- Colors -->
+        <Color x:Key="AppPrimaryColor">#1976D2</Color>
+        <Color x:Key="AppSecondaryColor">#333399</Color>
+        <Color x:Key="AppLightColor">AliceBlue</Color>
+        <Color x:Key="AppDarkColor">#FF0B1219</Color>
+        <Color x:Key="PrimaryColor">Black</Color>
+        <Color x:Key="SecondaryColor">White</Color>
+        <Color x:Key="TertiaryColor">Silver</Color>
+
+        <Color x:Key="TextColor">Black</Color>
+        <Color x:Key="SubTextColor">Gray</Color>
+
+        <!-- Implicit styles -->
+        <Style TargetType="ContentPage"
+               ApplyToDerivedTypes="True">
+            <Setter Property="BackgroundColor"
+                    Value="{AppThemeBinding Light={StaticResource AppLightColor}, Dark={StaticResource AppDarkColor}}" />
+        </Style>
+
+        <Style TargetType="Switch"
+               ApplyToDerivedTypes="True">
+            <Setter Property="OnColor"
+                    Value="{StaticResource AppPrimaryColor}" />
+            <Setter Property="ThumbColor"
+                    Value="{StaticResource AppSecondaryColor}" />
+        </Style>
+
+        <Style TargetType="Entry"
+               ApplyToDerivedTypes="True">
+            <Setter Property="PlaceholderColor"
+                    Value="{StaticResource SubTextColor}" />
+            <Setter Property="TextColor"
+                    Value="{AppThemeBinding Light={StaticResource AppDarkColor}, Dark={StaticResource AppLightColor}}" />
+            <Setter Property="BackgroundColor"
+                    Value="{AppThemeBinding Light={StaticResource AppLightColor}, Dark={StaticResource AppDarkColor}}" />
+        </Style>
+
+        <Style TargetType="Label"
+               ApplyToDerivedTypes="True">
+            <Setter Property="TextColor"
+                    Value="{AppThemeBinding Light={StaticResource AppDarkColor}, Dark={StaticResource AppLightColor}}" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="FontSize"
+                    Value="Medium" />
+            <Setter Property="BackgroundColor"
+                    Value="{StaticResource AppPrimaryColor}" />
+            <Setter Property="TextColor"
+                    Value="{StaticResource SecondaryColor}" />
+            <Setter Property="CornerRadius"
+                    Value="5" />
+        </Style>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="FontSize"
+                    Value="Medium" />
+            <Setter Property="TextColor"
+                    Value="{AppThemeBinding Light={StaticResource AppDarkColor}, Dark={StaticResource AppLightColor}}" />
+        </Style>
+
+    </Application.Resources>
+</Application>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bookstore_Tycoon.Views.AppSettingsPage"
+             Title="Settings">
+    
+    <!-- Layout children in two rows -->
+    <Grid RowDefinitions="Auto,*">
+        <Image Source="xamarin_logo.png"
+               BackgroundColor="{StaticResource AppPrimaryColor}"
+               Opacity="0.85"
+               VerticalOptions="Center"
+               HeightRequest="64" />
+        
+        <!-- Layout children vertically -->
+        <StackLayout Grid.Row="1"
+                     Margin="{StaticResource PageMargin}"
+                     Spacing="20">
+
+            <Label Text="App view mode"
+                   FontAttributes="Bold"/>
+            <Label Text="Note: some things may not look right when on any setting exept your system default"/>
+            <RadioButton x:Name="AppDefaultThemeButton"
+                         Content="System Default"
+                         CheckedChanged="OnAppThemeDefault"/>
+            <RadioButton x:Name="AppLightThemeButton"
+                         Content="Light mode"
+                         CheckedChanged="OnAppThemeLight" />
+            <RadioButton x:Name="AppDarkThemeButton"
+                         Content="Dark mode"
+                         CheckedChanged="OnAppThemeDark" />
+        </StackLayout>
+    </Grid>
+</ContentPage>
