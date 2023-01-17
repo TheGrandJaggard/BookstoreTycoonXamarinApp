@@ -104,6 +104,13 @@ namespace Bookstore_Tycoon.Views
             await Shell.Current.GoToAsync("..");
         }
 
+        async void OnContinueButtonClicked(object sender, EventArgs e)
+        {
+            var game = (GameSettings)BindingContext;
+
+            await Shell.Current.GoToAsync($"{nameof(GameplayHomePage)}?{nameof(GameplayHomePage.ItemId)}={game.Filename}");
+        }
+
         async void OnCopySettings(object sender, EventArgs e)
         {
             var game = (GameSettings)BindingContext;

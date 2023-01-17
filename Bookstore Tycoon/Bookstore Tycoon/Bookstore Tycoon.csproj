@@ -17,6 +17,9 @@
     <Compile Update="Views\ChooseGamePage.xaml.cs">
       <DependentUpon>ChooseGamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GameplayHomePage.xaml.cs">
+      <DependentUpon>GameplayHomePage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

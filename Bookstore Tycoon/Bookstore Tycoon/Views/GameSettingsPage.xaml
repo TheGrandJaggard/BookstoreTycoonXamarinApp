@@ -64,6 +64,10 @@
                     Text="Delete"
                     Clicked="OnDeleteButtonClicked"/>
 
+            <Button Grid.Column="3"
+                    Text="Continue"
+                    Clicked="OnContinueButtonClicked"/>
+
             <Button Grid.Column="0"
                     Grid.Row="1"
                     Text="Copy Settings"
