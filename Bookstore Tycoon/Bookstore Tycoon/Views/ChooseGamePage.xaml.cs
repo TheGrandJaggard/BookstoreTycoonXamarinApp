@@ -19,21 +19,20 @@ namespace Bookstore_Tycoon.Views
         {
             base.OnAppearing();
 
-            var games = new List<GameSettings>();
+            var games = new List<GameData>();
 
             // Create a Note object from each file.
 
-            var files = Directory.EnumerateFiles(App.FolderPath, "*.gamesettings.txt");
+            var files = Directory.EnumerateFiles(App.FolderPath, "*.gamedata.txt");
 
-            Debug.WriteLine($"This is the total number of files: {files.ToList().Count}");
             foreach (string filename in files)
             {
                 List<string> fileData = File.ReadAllLines(filename).ToList();
 
-                // ERRORS HERE
+                #region FixingFiles (Disabled)
+                /*
                 int count = fileData.Count;
 
-                #region FixingFiles
                 if (count == 0)
                 {
                     fileData.Add("Unnamed Game");
@@ -82,22 +81,16 @@ namespace Bookstore_Tycoon.Views
                     File.AppendAllLines(filename, new List<string> { fileData[count] });
                     Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
                     count++;
-                } 
+                }
+                */
                 #endregion
 
-                games.Add(new GameSettings
+                games.Add(new GameData
                 {
-                    // file metadata
+                    // this is the only file data we need
                     Filename = filename,
                     Date = File.GetCreationTime(filename),
-                    // file data
-                    GameName = fileData[0],
-                    RealDice = Convert.ToBoolean(fileData[1]),
-                    GameLength = Convert.ToInt32(fileData[2]),
-                    StartingCash = Convert.ToInt32(fileData[3]),
-                    MoneyMultiplier = Convert.ToDouble(fileData[4]),
-                    RandomEvents = Convert.ToBoolean(fileData[5]),
-                    AdvertBase = Convert.ToDouble(fileData[6])
+                    GameName = fileData[0]
                 });
             }
 
@@ -107,11 +100,13 @@ namespace Bookstore_Tycoon.Views
                 .ToList();
         }
 
-        void OnAddClicked(object sender, EventArgs e)
+        async void OnNewGameClicked(object sender, EventArgs e)
         {
-            // Create a new file, fill it with defalult values, then Go To Game Settings Page
-            string filename = Path.Combine(App.FolderPath, $"{Path.GetRandomFileName()}.gamesettings.txt");
+            // Create a new file, fill it with defalult values, then go to GameSettingsPage
+            string filename = Path.Combine(App.FolderPath, $"{Path.GetRandomFileName()}.gamedata.txt");
 
+            #region Create new File (Disabled)
+            /*
             var fileData = new List<string>
             {
                 "Unnamed Game",
@@ -123,25 +118,20 @@ namespace Bookstore_Tycoon.Views
                 "5.00"
             };
             File.WriteAllLines(filename, fileData);
+            */
+            #endregion
 
-            GoToGameSettingsPage(filename);
+            await Shell.Current.GoToAsync($"{nameof(GameSettingsPage)}?{nameof(GameSettingsPage.GameID)}={filename}");
         }
 
-        void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection != null)
             {
-                // find the game from the selection then Go To Game Settings Page
-                GameSettings game = (GameSettings)e.CurrentSelection.FirstOrDefault();
-                GoToGameSettingsPage(game.Filename);
+                // find the game from the selection then go to GameSettingsPage
+                GameData game = (GameData)e.CurrentSelection.FirstOrDefault();
+                await Shell.Current.GoToAsync($"{nameof(GameplayHomePage)}?{nameof(GameplayHomePage.GameID)}={game.Filename}");
             }
-        }
-
-        private async void GoToGameSettingsPage(string filename)
-        {
-
-            // Navigate to the GameSettingsPage, passing the filename as a query parameter.
-            await Shell.Current.GoToAsync($"{nameof(GameSettingsPage)}?{nameof(GameSettingsPage.ItemId)}={filename}");
         }
     }
 }

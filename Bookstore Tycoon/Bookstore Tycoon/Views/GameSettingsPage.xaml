@@ -5,78 +5,80 @@
              Title="Note Entry">
 
     <!-- Layout children vertically -->
-    <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
+    <ScrollView>
+        <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
         
-        <Entry x:Name="GameNameEntry"
-               HeightRequest="40"
-               Text="{Binding GameName}" />
+            <Entry x:Name="GameNameEntry"
+                   HeightRequest="40"
+                   Text="{Binding GameName}" />
 
-        <Label Text="If you are playing with real dice turn this on" />
-        <Switch x:Name="RealDiceSwitch"
-                IsToggled="{Binding RealDice}"
-                Toggled="OnUpdateBindings"/>
+            <Label Text="If you are playing with real dice turn this on" />
+            <Switch x:Name="RealDiceSwitch"
+                    IsToggled="{Binding RealDice}"
+                    Toggled="OnUpdateBindings"/>
 
-        <Label Text="Please chose the length of your game (in months)"  />
-        <Label x:Name="GameLenghText"/>
-        <Stepper Maximum="12"
-                 Minimum="4"
-                 Increment="1"
-                 Value="{Binding GameLength}"
-                 ValueChanged="OnUpdateBindings"/>
+            <Label Text="Please chose the length of your game (in months)"  />
+            <Label x:Name="GameLenghText"/>
+            <Stepper x:Name="GameLenghStepper"
+                     Maximum="12"
+                     Minimum="4"
+                     Increment="1"
+                     Value="{Binding GameLength}"
+                     ValueChanged="OnUpdateBindings"/>
 
-        <Label Text="Please chose your starting cash"  />
-        <Label x:Name="StartingCashText"/>
-        <Stepper Maximum="1000"
-                 Minimum="200"
-                 Increment="50"
-                 Value="{Binding StartingCash}"
-                 ValueChanged="OnUpdateBindings"/>
+            <Label Text="Please chose your starting cash"  />
+            <Label x:Name="StartingCashText"/>
+            <Stepper x:Name="StartingCashStepper"
+                     Maximum="1000"
+                     Minimum="200"
+                     Increment="50"
+                     Value="{Binding StartingCash}"
+                     ValueChanged="OnUpdateBindings"/>
 
-        <Label Text="Please chose your money multiplier"  />
-        <Label x:Name="MoneyMultiplierText"/>
-        <Stepper Maximum="5"
-                 Minimum="0.1"
-                 Increment="0.1"
-                 Value="{Binding MoneyMultiplier}"
-                 ValueChanged="OnUpdateBindings"/>
+            <Label Text="Please chose your money multiplier"  />
+            <Label x:Name="MoneyMultiplierText"/>
+            <Stepper x:Name="MoneyMultiplierStepper"
+                     Maximum="4"
+                     Minimum="0.2"
+                     Increment="0.2"
+                     Value="{Binding MoneyMultiplier}"
+                     ValueChanged="OnUpdateBindings"/>
 
-        <Label Text="If you would like random events in your game turn this on" />
-        <Switch x:Name="RandomEventsSwitch"
-                IsToggled="{Binding RandomEvents}"
-                Toggled="OnUpdateBindings"/>
+            <Label Text="If you would like random events in your game turn this on" />
+            <Switch x:Name="RandomEventsSwitch"
+                    IsToggled="{Binding RandomEvents}"
+                    Toggled="OnUpdateBindings"/>
 
-        <Label Text="Please chose your advertisement base value"  />
-        <Label x:Name="AdvertBaseText"/>
-        <Stepper Maximum="10"
-                 Minimum="1"
-                 Increment="0.5"
-                 Value="{Binding AdvertBase}"
-                 ValueChanged="OnUpdateBindings"/>
+            <Label Text="Please chose your advertisement base value"  />
+            <Label x:Name="AdvertBaseText"/>
+            <Stepper x:Name="AdvertBaseStepper"
+                     Maximum="10"
+                     Minimum="1"
+                     Increment="0.5"
+                     Value="{Binding AdvertBase}"
+                     ValueChanged="OnUpdateBindings"/>
 
-        <Grid ColumnDefinitions="*,*">
-            <!-- Layout children in two columns -->
+            <Grid ColumnDefinitions="*,*">
+                <!-- Layout children in two columns -->
 
-            <Button Grid.Column="0"
-                    Text="Save"
-                    Clicked="OnSaveButtonClicked" />
+                <Button Grid.Column="0"
+                        Text="Cancel"
+                        Clicked="OnCancelButtonClicked"/>
 
-            <Button Grid.Column="1"
-                    Text="Delete"
-                    Clicked="OnDeleteButtonClicked"/>
+                <Button Grid.Column="1"
+                        Text="Continue"
+                        Clicked="OnContinueButtonClicked"/>
 
-            <Button Grid.Column="3"
-                    Text="Continue"
-                    Clicked="OnContinueButtonClicked"/>
+                <Button Grid.Column="0"
+                        Grid.Row="1"
+                        Text="Copy Settings"
+                        Clicked="OnCopySettings" />
 
-            <Button Grid.Column="0"
-                    Grid.Row="1"
-                    Text="Copy Settings"
-                    Clicked="OnCopySettings" />
-
-            <Button Grid.Column="1"
-                    Grid.Row="1"
-                    Text="Paste Settings"
-                    Clicked="OnPasteSettings"/>
-        </Grid>
-    </StackLayout>
+                <Button Grid.Column="1"
+                        Grid.Row="1"
+                        Text="Paste Settings"
+                        Clicked="OnPasteSettings"/>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

@@ -2,7 +2,7 @@
 
 namespace Bookstore_Tycoon.Models
 {
-    public class GameStats
+    public class GameData
     {
         // This data is in the metadata of the file
         public string Filename { get; set; } // files are saved as "*.gamestats.txt" in the App.FolderPath
@@ -25,6 +25,7 @@ namespace Bookstore_Tycoon.Models
         public double Interest { get; set; }        // stored on line 11
         public int Inventory { get; set; }          // stored on line 12
         public int UpgradeLVL { get; set; }         // stored on line 13
+        public int CurrentTurn { get; set; }        // stored on line 14 (in weeks)
         //     This data is not stored in the file, it is derived solely from the other stats
         public string UpgradeName { get; set; }     // derived from a list and UpgradeLVL
         public int AdvertTotal { get; set; }        // derived from advert base and AdvertBonus

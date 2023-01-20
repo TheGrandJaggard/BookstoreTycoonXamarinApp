@@ -8,10 +8,10 @@ using Xamarin.Essentials;
 
 namespace Bookstore_Tycoon.Views
 {
-    [QueryProperty(nameof(ItemId), nameof(ItemId))]
+    [QueryProperty(nameof(GameID), nameof(GameID))]
     public partial class GameplayHomePage : ContentPage
     {
-        public string ItemId
+        public string GameID
         {
             set
             {
@@ -24,7 +24,7 @@ namespace Bookstore_Tycoon.Views
         {
             InitializeComponent();
             // Set the BindingContext of the page to a new set of game stats.
-            BindingContext = new GameStats();
+            BindingContext = new GameData();
         }
 
         void LoadGame(string filename)
@@ -34,13 +34,13 @@ namespace Bookstore_Tycoon.Views
                 // Retrieve the note and set it as the BindingContext of the page.
                 List<string> fileData = File.ReadAllLines(filename).ToList();
 
-                if(filename.EndsWith(".gamestats.txt"))
+                if(filename.EndsWith(".gamedata.txt"))
                 {
-                    GameStats game = new GameStats
+                    GameData game = new GameData
                     {
                         Filename = filename,
                         Date = File.GetCreationTime(filename),
-                        // these values all come from the .gamestats file
+                        // these values all come from the .gamedata.txt file
                         GameName = fileData[0],
                         RealDice = Convert.ToBoolean(fileData[1]),
                         GameLength = Convert.ToInt32(fileData[2]),
@@ -54,41 +54,14 @@ namespace Bookstore_Tycoon.Views
                         AdvertBonus = Convert.ToDouble(fileData[10]),
                         Interest = Convert.ToDouble(fileData[11]),
                         Inventory = Convert.ToInt32(fileData[12]),
-                        UpgradeLVL = Convert.ToInt32(fileData[13])
-                    };
-                    BindingContext = game;
-                }
-                else if (filename.EndsWith(".gamesettings.txt"))
-                {
-                    File.Delete(filename);
-                    filename = filename.Remove(filename.Length - 17) + ".gamestats.txt";
-
-                    GameStats game = new GameStats
-                    {
-                        Filename = filename,
-                        Date = File.GetCreationTime(filename),
-                        // these values come from the .gamesettings file
-                        GameName = fileData[0],
-                        RealDice = Convert.ToBoolean(fileData[1]),
-                        GameLength = Convert.ToInt32(fileData[2]),
-                        StartingCash = Convert.ToInt32(fileData[3]),
-                        MoneyMultiplier = Convert.ToDouble(fileData[4]),
-                        RandomEvents = Convert.ToBoolean(fileData[5]),
-                        AdvertBase = Convert.ToDouble(fileData[6]),
-                        // these values are created as defaults
-                        CurrentCash = Convert.ToInt32(fileData[3]),
-                        CurrentDebt = Convert.ToInt32(fileData[3]),
-                        Markup = 0.50,
-                        AdvertBonus = 0.00,
-                        Interest = 0.10,
-                        Inventory = 0,
-                        UpgradeLVL = 1
+                        UpgradeLVL = Convert.ToInt32(fileData[13]),
+                        CurrentTurn = Convert.ToInt32(fileData[14])
                     };
                     BindingContext = game;
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("Invalid Filename!");
+                    throw new Exception();
                 }
             }
             catch (Exception)
@@ -97,9 +70,9 @@ namespace Bookstore_Tycoon.Views
             }
         }
 
-        async void OnSaveButtonClicked(object sender, EventArgs e)
+        /*async*/ void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            var game = (GameStats)BindingContext;
+            var game = (GameData)BindingContext;
 
             // we delete the file to clear it then make a new one with the same name
             if (File.Exists(game.Filename))
@@ -123,14 +96,15 @@ namespace Bookstore_Tycoon.Views
                 game.AdvertBonus.ToString(),
                 game.Interest.ToString(),
                 game.Inventory.ToString(),
-                game.UpgradeLVL.ToString()
+                game.UpgradeLVL.ToString(),
+                game.CurrentTurn.ToString()
             };
             // put our data into the file
             File.AppendAllLines(game.Filename, fileData);
 
 
             // Navigate backwards
-            await Shell.Current.GoToAsync($"{nameof(ChooseGamePage)}");
+            //await Shell.Current.GoToAsync($"{nameof(ChooseGamePage)}");
         }
 
         void OnUpdateBindings(object sender, EventArgs e)
@@ -140,17 +114,20 @@ namespace Bookstore_Tycoon.Views
 
         void UpdateBindings()
         {
-            var game = (GameStats)BindingContext;
+            var game = (GameData)BindingContext;
 
             CurrentCashText.Text = game.CurrentCash.ToString();
             CurrentDebtText.Text = game.CurrentDebt.ToString();
             MarkupText.Text = game.Markup.ToString();
             AdvertBonusText.Text = game.AdvertBonus.ToString();
+            InterestText.Text = game.Interest.ToString();
+            InventoryText.Text = game.Inventory.ToString();
+            UpgradeLVLText.Text = game.UpgradeLVL.ToString();
         }
 
         async void OnQuitButtonClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync($"{nameof(ChooseGamePage)}");
         }
 
         // unused code here

@@ -25,8 +25,8 @@
 
     <!-- Add "add" item to the top toolbar -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Note"
-                     Clicked="OnAddClicked" />
+        <ToolbarItem Text="New Game"
+                     Clicked="OnNewGameClicked" />
     </ContentPage.ToolbarItems>
 
     <!-- Display games in a list -->
