@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using Bookstore_Tycoon.Models;
 using Xamarin.Forms;
-using Xamarin.Essentials;
 
 namespace Bookstore_Tycoon.Views
 {
     [QueryProperty(nameof(GameID), nameof(GameID))]
     public partial class GameplayHomePage : ContentPage
     {
+        private bool MonthlyManagement = false;
+
         public string GameID
         {
             set
@@ -40,7 +41,6 @@ namespace Bookstore_Tycoon.Views
                     {
                         Filename = filename,
                         Date = File.GetCreationTime(filename),
-                        // these values all come from the .gamedata.txt file
                         GameName = fileData[0],
                         RealDice = Convert.ToBoolean(fileData[1]),
                         GameLength = Convert.ToInt32(fileData[2]),
@@ -70,72 +70,57 @@ namespace Bookstore_Tycoon.Views
             }
         }
 
-        /*async*/ void OnSaveButtonClicked(object sender, EventArgs e)
-        {
-            var game = (GameData)BindingContext;
-
-            // we delete the file to clear it then make a new one with the same name
-            if (File.Exists(game.Filename))
-            {
-                File.Delete(game.Filename);
-            }
-
-            // here's the data we will write to the file
-            var fileData = new List<string>
-            {
-                game.GameName,
-                game.RealDice.ToString(),
-                game.GameLength.ToString(),
-                game.StartingCash.ToString(),
-                game.MoneyMultiplier.ToString(),
-                game.RandomEvents.ToString(),
-                game.AdvertBase.ToString(),
-                game.CurrentCash.ToString(),
-                game.CurrentDebt.ToString(),
-                game.Markup.ToString(),
-                game.AdvertBonus.ToString(),
-                game.Interest.ToString(),
-                game.Inventory.ToString(),
-                game.UpgradeLVL.ToString(),
-                game.CurrentTurn.ToString()
-            };
-            // put our data into the file
-            File.AppendAllLines(game.Filename, fileData);
-
-
-            // Navigate backwards
-            //await Shell.Current.GoToAsync($"{nameof(ChooseGamePage)}");
-        }
-
-        void OnUpdateBindings(object sender, EventArgs e)
-        {
-            UpdateBindings();
-        }
-
         void UpdateBindings()
         {
             var game = (GameData)BindingContext;
+            var month = Math.Floor(game.CurrentTurn / 5.0);
+            var week = game.CurrentTurn - month * 5.0;
 
-            CurrentCashText.Text = game.CurrentCash.ToString();
-            CurrentDebtText.Text = game.CurrentDebt.ToString();
-            MarkupText.Text = game.Markup.ToString();
-            AdvertBonusText.Text = game.AdvertBonus.ToString();
-            InterestText.Text = game.Interest.ToString();
-            InventoryText.Text = game.Inventory.ToString();
-            UpgradeLVLText.Text = game.UpgradeLVL.ToString();
+            ScoreText.Text = "Your score is: " + game.Score.ToString() + Environment.NewLine;
+            CurrentTurnText.Text = $"Your are on turn: {game.CurrentTurn}{Environment.NewLine}That is, month: {month} and week: {week}";
+
+            if (week == 0)
+            {
+                ContinueButton.Text = "Continue to monthly management" + Environment.NewLine;
+                MonthlyManagement = true;
+            }
+            else
+            {
+                ContinueButton.Text = $"Continue to week #{week} of month #{month}" + Environment.NewLine;
+                MonthlyManagement = false;
+            }
         }
 
-        async void OnQuitButtonClicked(object sender, EventArgs e)
+        async void OnContinueButtonClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"{nameof(ChooseGamePage)}");
+            var game = (GameData)BindingContext;
+            if (MonthlyManagement == true)
+            {
+                if (game.CurrentTurn == 0)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(MonthlyManagementPage)}?{nameof(MonthlyManagementPage.GameID)}={game.Filename}");
+                }
+                else
+                {
+                    await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
+                }
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
+            }
         }
 
-        // unused code here
-        /*
+        async void OnBackToMainMenuButtonClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync(nameof(ChooseGamePage));
+        }
+
         async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
-            var game = (GameStats)BindingContext;
+            var game = (GameData)BindingContext;
 
+            System.Diagnostics.Debug.WriteLine($"filename = {game.Filename}");
             // Delete the file.
             if (File.Exists(game.Filename))
             {
@@ -143,33 +128,13 @@ namespace Bookstore_Tycoon.Views
             }
 
             // Navigate backwards
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync(nameof(ChooseGamePage));
         }
 
-        async void OnCopySettings(object sender, EventArgs e)
+        async void OnGoToStatsPageClicked(object sender, EventArgs e)
         {
-            var game = (GameStats)BindingContext;
-            await Clipboard.SetTextAsync(File.ReadAllText(game.Filename));
+            var game =(GameData)BindingContext;
+            await Shell.Current.GoToAsync($"{nameof(GameStatsPage)}?{nameof(GameStatsPage.GameID)}={game.Filename}");
         }
-
-        async void OnPasteSettings(object sender, EventArgs e)
-        {
-            if (Clipboard.HasText)
-            {
-                var game = (GameStats)BindingContext;
-
-                var clipboardText = await Clipboard.GetTextAsync();
-                var clipboardData = clipboardText.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.None);
-
-                game.RealDice = Convert.ToBoolean(clipboardData[1]);
-                game.GameLength = Convert.ToInt32(clipboardData[2]);
-                game.StartingCash = Convert.ToInt32(clipboardData[3]);
-                game.MoneyMultiplier = Convert.ToDouble(clipboardData[4]);
-                game.RandomEvents = Convert.ToBoolean(clipboardData[5]);
-                game.AdvertBase = Convert.ToDouble(clipboardData[6]);
-                UpdateBindings();
-            }
-        }
-        */
     }
 }

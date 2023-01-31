@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bookstore_Tycoon.Views.GameStatsPage"
+             Title="{Binding GameName}">
+
+    <!-- Layout children vertically -->
+    <ScrollView>
+        <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
+
+            <Label Text="Your game settings:"
+                   FontAttributes="Bold" />
+            <Label x:Name="GameNameText" />
+            <Label x:Name="RealDiceText" />
+            <Label x:Name="GameLengthText" />
+            <Label x:Name="StartingCashText" />
+            <Label x:Name="MoneyMultiplierText" />
+            <Label x:Name="RandomEventsText" />
+            <Label x:Name="AdvertBaseText" />
+            <Label Text="The stats of your game:"
+                   FontAttributes="Bold" />
+            <Label x:Name="CurrentCashText" />
+            <Label x:Name="CurrentDebtText" />
+            <Label x:Name="MarkupText" />
+            <Label x:Name="AdvertBonusText" />
+            <Label x:Name="InterestText" />
+            <Label x:Name="InventoryText" />
+            <Label x:Name="UpgradeLVLText" />
+            <Label x:Name="CurrentTurnText" />
+            <Label x:Name="AdvertTotalText" />
+            <Label x:Name="SatisfactionBonusText" />
+            <Label x:Name="ScoreText"
+                   FontAttributes="Bold" />
+
+            <Button Text="Back"
+                    Clicked="OnBackButtonClicked" />
+        
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

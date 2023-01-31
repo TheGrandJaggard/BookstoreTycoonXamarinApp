@@ -17,6 +17,18 @@
     <Compile Update="Views\ChooseGamePage.xaml.cs">
       <DependentUpon>ChooseGamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\InterestChangePage.xaml.cs">
+      <DependentUpon>InterestChangePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GameStatsPage.xaml.cs">
+      <DependentUpon>GameStatsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MonthlyManagementPage.xaml.cs">
+      <DependentUpon>MonthlyManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GameplayHomePageBackup.xaml.cs">
+      <DependentUpon>GameplayHomePageBackup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\GameplayHomePage.xaml.cs">
       <DependentUpon>GameplayHomePage.xaml</DependentUpon>
     </Compile>

@@ -23,7 +23,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <!-- Add "add" item to the top toolbar -->
+    <!-- Add "new game" item to the top toolbar -->
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="New Game"
                      Clicked="OnNewGameClicked" />

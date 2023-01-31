@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bookstore_Tycoon.Views.MonthlyManagementPage"
+             Title="{Binding GameName}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Stats"
+                     Clicked="OnGoToStatsPageClicked" />
+    </ContentPage.ToolbarItems>
+    
+    <!-- Layout children vertically -->
+    <ScrollView>
+        <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
+
+            <Label Text="You may change your Markup:" />
+            <Label Text="(Markup does not cost anything to change)" />
+            <Label x:Name="MarkupText" />
+            <Stepper x:Name="MarkupStepper"
+                     Maximum="1.00"
+                     Minimum="0"
+                     Increment="0.10"
+                     Value="{Binding Markup}"
+                     ValueChanged="OnUpdateBindings" />
+
+            <Label Text="You may Upgrade your shop:" />
+            <Label Text="(The cost of upgrading your shop and upkeep increases per upgrade)"/>
+            <Label x:Name="UpgradeCostText" />
+            <Label x:Name="UpgradeLVLText" />
+            <Stepper x:Name="UpgradeLVLStepper"
+                     Maximum="12"
+                     Minimum="1"
+                     Increment="1"
+                     Value="{Binding UpgradeLVL}"
+                     ValueChanged="OnUpdateBindings" />
+
+            <Label Text="Please chose your Advertising:" />
+            <Label Text="(Advertisement cost scales up as the advertising bonus increases)" />
+            <Label x:Name="AdvertisingText" />
+            <Stepper x:Name="AdvertisingStepper"
+                     Maximum="0.50"
+                     Minimum="0.00"
+                     Increment="0.05"
+                     Value="{Binding AdvertBonus}"
+                     ValueChanged="OnUpdateBindings"/>
+
+            <Label Text="Please chose your Inventory:" />
+            <Label Text="(It costs $200 to increase your inventory)" />
+            <Label x:Name="InventoryText" />
+            <Stepper x:Name="InventoryStepper"
+                     Maximum="10"
+                     Minimum="0"
+                     Increment="1"
+                     Value="{Binding Inventory}"
+                     ValueChanged="OnUpdateBindings" />
+
+            <Label Text="Total Expenses:" />
+            <Label x:Name="ExpensesText" />
+
+            <Button Grid.Column="0"
+                        Text="Continue"
+                        Clicked="OnContinueButtonClicked" />
+        
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bookstore_Tycoon.Views.InterestChangePage"
+             Title="{Binding GameName}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Stats"
+                     Clicked="OnGoToStatsPageClicked" />
+    </ContentPage.ToolbarItems>
+
+    <!-- Layout children vertically -->
+    <ScrollView>
+        <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
+
+            
+            <Label Text="How much did interest change this turn?" />
+            <Label x:Name="InterestText"/>
+            <Stepper Maximum="3"
+                     Minimum="-1"
+                     Increment="1"
+                     Value="{Binding SatisfactionBonus}"
+                     ValueChanged="OnUpdateBindings"/>
+
+            <Button Text="Continue"
+                    Clicked="OnContinueButtonClicked"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

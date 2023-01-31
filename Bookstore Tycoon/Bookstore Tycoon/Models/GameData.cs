@@ -9,7 +9,7 @@ namespace Bookstore_Tycoon.Models
         public DateTime Date { get; set; }
 
         // This data is in the file
-        //     This data comes straight from the GameSettings file and does not change
+        //     This data is set at the begining of the game and does not change
         public string GameName { get; set; }        // stored on line 0
         public bool RealDice { get; set; }          // stored on line 1
         public int GameLength { get; set; }         // stored on line 2
@@ -29,7 +29,7 @@ namespace Bookstore_Tycoon.Models
         //     This data is not stored in the file, it is derived solely from the other stats
         public string UpgradeName { get; set; }     // derived from a list and UpgradeLVL
         public int AdvertTotal { get; set; }        // derived from advert base and AdvertBonus
-        public int SatisfactionBonus { get; set; }  // derived from Markup and UpgradeLVL
+        public double SatisfactionBonus {get; set;} // derived from Markup and UpgradeLVL
         public int Score { get; set; }              // derived from things & stuff
     }
 }
