@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bookstore_Tycoon.Views.WeeklyTurnPage"
+             Title="Weekly Turn">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Stats"
+                     Clicked="OnGoToStatsPageClicked" />
+    </ContentPage.ToolbarItems>
+    
+    <!-- Layout children vertically -->
+    <ScrollView>
+        <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
+
+
+            <!-- Roll x:AdvertTotal dice, How many customers do you get? (x:name = AdvertisingRoll) -->
+            <Label x:Name="AdvertisingRoll"/>
+            <Grid ColumnDefinitions="*,*">
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       x:Name="CustomersText"/>
+                <Stepper Grid.Row="0"
+                         Grid.Column="1"
+                         Maximum="30"
+                         Minimum="0"
+                         Increment="1"
+                         Value="{Binding Customers}"
+                         ValueChanged="OnUpdateBindings"/>
+            </Grid>
+
+            <!-- Now roll x:Customer dice. What number of each roll did you get? (x:name = SatisfactionRoll) -->
+            <Label x:Name="SatisfactionRoll"/>
+            <Grid x:Name="SatisfactionRollsGrid"
+                  ColumnDefinitions="*,*">
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       x:Name="SatisfactionRoll0Text"/>
+                <Stepper x:Name="SatisfactionRoll0Stepper"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding SatisfactionRoll0}"
+                         ValueChanged="OnUpdateBindings"/>
+                
+                <Label Grid.Row="1"
+                       Grid.Column="0"
+                       x:Name="SatisfactionRoll1Text"/>
+                <Stepper x:Name="SatisfactionRoll1Stepper"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding SatisfactionRoll1}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="2"
+                       Grid.Column="0"
+                       x:Name="SatisfactionRoll2Text"/>
+                <Stepper x:Name="SatisfactionRoll2Stepper"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding SatisfactionRoll2}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="3"
+                       Grid.Column="0"
+                       x:Name="SatisfactionRoll3Text"/>
+                <Stepper x:Name="SatisfactionRoll3Stepper"
+                         Grid.Row="3"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding SatisfactionRoll3}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="4"
+                       Grid.Column="0"
+                       x:Name="SatisfactionRoll4Text"/>
+                <Stepper x:Name="SatisfactionRoll4Stepper"
+                         Grid.Row="4"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding SatisfactionRoll4}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="5"
+                       Grid.Column="0"
+                       x:Name="SatisfactionRoll5Text"/>
+                <Stepper x:Name="SatisfactionRoll5Stepper"
+                         Grid.Row="5"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding SatisfactionRoll5}"
+                         ValueChanged="OnUpdateBindings"/>
+            </Grid>
+
+            <!-- Results, measured in Books and AdvertBonus increase (x:name = SatsifactionResults) -->
+            <Label x:Name="SatsifactionResults"/>
+            
+            <!-- Roll x:Books dice, What number of each roll did you get? (x:name = BooksRoll) -->
+            <Label x:Name="BookRoll"/>
+            <Grid x:Name="BookRollsGrid"
+                  ColumnDefinitions="*,*">
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       x:Name="BookRoll0Text"/>
+                <Stepper x:Name="BookRoll0Stepper"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding BookRoll0}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="1"
+                       Grid.Column="0"
+                       x:Name="BookRoll1Text"/>
+                <Stepper x:Name="BookRoll1Stepper"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding BookRoll1}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="2"
+                       Grid.Column="0"
+                       x:Name="BookRoll2Text"/>
+                <Stepper x:Name="BookRoll2Stepper"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding BookRoll2}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="3"
+                       Grid.Column="0"
+                       x:Name="BookRoll3Text"/>
+                <Stepper x:Name="BookRoll3Stepper"
+                         Grid.Row="3"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding BookRoll3}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="4"
+                       Grid.Column="0"
+                       x:Name="BookRoll4Text"/>
+                <Stepper x:Name="BookRoll4Stepper"
+                         Grid.Row="4"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding BookRoll4}"
+                         ValueChanged="OnUpdateBindings"/>
+
+                <Label Grid.Row="5"
+                       Grid.Column="0"
+                       x:Name="BookRoll5Text"/>
+                <Stepper x:Name="BookRoll5Stepper"
+                         Grid.Row="5"
+                         Grid.Column="1"
+                         Maximum="15"
+                         Minimum="-0.1"
+                         Increment="1"
+                         Value="{Binding BookRoll5}"
+                         ValueChanged="OnUpdateBindings"/>
+            </Grid>
+            
+            <!-- Results, measured by books sold, whether any exceded your inventory, and CurrentCash increase (x:name = BooksResults) -->
+            <Label x:Name="BooksResults"/>
+            
+            <Button Grid.Column="0"
+                    Text="Continue"
+                    Clicked="OnContinueButtonClicked" />
+            
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

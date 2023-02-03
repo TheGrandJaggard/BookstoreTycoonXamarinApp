@@ -14,6 +14,7 @@ namespace Bookstore_Tycoon
             Routing.RegisterRoute(nameof(InterestChangePage), typeof(InterestChangePage));
             Routing.RegisterRoute(nameof(MonthlyManagementPage), typeof(MonthlyManagementPage));
             Routing.RegisterRoute(nameof(GameStatsPage), typeof(GameStatsPage));
+            Routing.RegisterRoute(nameof(WeeklyTurnPage), typeof(WeeklyTurnPage));
             // Routing.RegisterRoute(nameof(Name), typeof(Name));
         }
     }

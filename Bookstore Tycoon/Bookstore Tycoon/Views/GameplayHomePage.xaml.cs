@@ -107,7 +107,7 @@ namespace Bookstore_Tycoon.Views
             }
             else
             {
-                await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
+                await Shell.Current.GoToAsync($"{nameof(WeeklyTurnPage)}?{nameof(WeeklyTurnPage.GameID)}={game.Filename}");
             }
         }
 

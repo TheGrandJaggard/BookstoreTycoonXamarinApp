@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bookstore_Tycoon.Views.ChooseGamePage"
-             Title="Choose Your Game (Notes)">
+             Title="Choose Your Game">
 
     <ContentPage.Resources>
         <!-- Define a visual state for the Selected state of the CollectionView -->

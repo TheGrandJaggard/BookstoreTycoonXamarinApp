@@ -57,9 +57,8 @@
             <Label Text="Total Expenses:" />
             <Label x:Name="ExpensesText" />
 
-            <Button Grid.Column="0"
-                        Text="Continue"
-                        Clicked="OnContinueButtonClicked" />
+            <Button Text="Continue"
+                    Clicked="OnContinueButtonClicked" />
         
         </StackLayout>
     </ScrollView>
