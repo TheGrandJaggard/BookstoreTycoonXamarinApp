@@ -116,15 +116,17 @@ namespace Bookstore_Tycoon.Views
 
             // Here is the data we will put onto the clipboard
             var clipboardData =
-                game.GameName + System.Environment.NewLine +
-                game.RealDice.ToString() + System.Environment.NewLine +
-                game.GameLength.ToString() + System.Environment.NewLine +
-                game.StartingCash.ToString() + System.Environment.NewLine +
-                game.MoneyMultiplier.ToString() + System.Environment.NewLine +
-                game.RandomEvents.ToString() + System.Environment.NewLine +
+                "Copy this to your clipboard then press 'paste settings' in the game." + Environment.NewLine +
+                game.GameName + Environment.NewLine +
+                game.RealDice.ToString() + Environment.NewLine +
+                game.GameLength.ToString() + Environment.NewLine +
+                game.StartingCash.ToString() + Environment.NewLine +
+                game.MoneyMultiplier.ToString() + Environment.NewLine +
+                game.RandomEvents.ToString() + Environment.NewLine +
                 game.AdvertBase.ToString();
 
             await Clipboard.SetTextAsync(clipboardData);
+            CopyPasteStatusText.Text = "Settings copied successfully";
         }
 
         async void OnPasteSettings(object sender, EventArgs e)
@@ -134,17 +136,22 @@ namespace Bookstore_Tycoon.Views
                 var game = (GameData)BindingContext;
 
                 var clipboardText = await Clipboard.GetTextAsync();
-                var clipboardData = clipboardText.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.None);
+                var clipboardData = clipboardText.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-                game.GameName = clipboardData[0];
-                game.RealDice = Convert.ToBoolean(clipboardData[1]);
-                game.GameLength = Convert.ToInt32(clipboardData[2]);
-                game.StartingCash = Convert.ToInt32(clipboardData[3]);
-                game.MoneyMultiplier = Convert.ToDouble(clipboardData[4]);
-                game.RandomEvents = Convert.ToBoolean(clipboardData[5]);
-                game.AdvertBase = Convert.ToDouble(clipboardData[6]);
-                
-                UpdateBindings();
+                if (clipboardData[0] == "Copy this to your clipboard then press 'paste settings' in the game.")
+                {
+                    game.GameName = clipboardData[1];
+                    game.RealDice = Convert.ToBoolean(clipboardData[2]);
+                    game.GameLength = Convert.ToInt32(clipboardData[3]);
+                    game.StartingCash = Convert.ToInt32(clipboardData[4]);
+                    game.MoneyMultiplier = Convert.ToDouble(clipboardData[5]);
+                    game.RandomEvents = Convert.ToBoolean(clipboardData[6]);
+                    game.AdvertBase = Convert.ToDouble(clipboardData[7]);
+                    CopyPasteStatusText.Text = "Settings pasted successfully";
+                }
+
+                SaveGame();
+                await Shell.Current.GoToAsync($"{nameof(GameplayHomePage)}?{nameof(GameplayHomePage.GameID)}={game.Filename}");
             }
         }
 

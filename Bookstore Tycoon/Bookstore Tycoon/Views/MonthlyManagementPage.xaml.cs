@@ -64,6 +64,8 @@ namespace Bookstore_Tycoon.Views
                     UpgradeLVLStepper.Minimum = game.UpgradeLVL;
                     AdvertisingStepper.Minimum = game.AdvertBonus;
                     InventoryStepper.Minimum = game.Inventory;
+                    DebtStepper.Minimum = -game.CurrentDebt;
+                    DebtStepper.Maximum = game.CurrentCash;
                 }
                 else
                 {
@@ -106,41 +108,50 @@ namespace Bookstore_Tycoon.Views
                 UpgradeCost += Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10;
             }
             #endregion
-            int TotalCost = InterestCost + UpkeepCost + AdvertisingCost + InventoryCost + (int)UpgradeCost;
+            int DebtCost = game.OtherBinding1;
+            int TotalCost = InterestCost + UpkeepCost + AdvertisingCost + InventoryCost + (int)UpgradeCost + DebtCost;
             game.CurrentCash -= TotalCost;
 
 
-            // We delete the file to clear it then make a new one with the same name
-            if (File.Exists(game.Filename))
+
+            if (game.CurrentCash < 0)
             {
-                File.Delete(game.Filename);
+                ErrorText.Text = "Hey, you can't nave a negative amount of money!";
             }
-
-            // Here's the data we will write to the file
-            var newFileData = new List<string>
+            else
             {
-                game.GameName,
-                game.RealDice.ToString(),
-                game.GameLength.ToString(),
-                game.StartingCash.ToString(),
-                game.MoneyMultiplier.ToString(),
-                game.RandomEvents.ToString(),
-                game.AdvertBase.ToString(),
-                game.CurrentCash.ToString(),
-                game.CurrentDebt.ToString(),
-                game.Markup.ToString(),
-                game.AdvertBonus.ToString(),
-                game.Interest.ToString(),
-                game.Inventory.ToString(),
-                game.UpgradeLVL.ToString(),
-                (game.CurrentTurn + 1).ToString()
-            };
+                // We delete the file to clear it then make a new one with the same name
+                if (File.Exists(game.Filename))
+                {
+                    File.Delete(game.Filename);
+                }
 
-            // Put our data into the file
-            File.AppendAllLines(game.Filename, newFileData);
+                // Here's the data we will write to the file
+                var newFileData = new List<string>
+                {
+                    game.GameName,
+                    game.RealDice.ToString(),
+                    game.GameLength.ToString(),
+                    game.StartingCash.ToString(),
+                    game.MoneyMultiplier.ToString(),
+                    game.RandomEvents.ToString(),
+                    game.AdvertBase.ToString(),
+                    game.CurrentCash.ToString(),
+                    game.CurrentDebt.ToString(),
+                    game.Markup.ToString(),
+                    game.AdvertBonus.ToString(),
+                    game.Interest.ToString(),
+                    game.Inventory.ToString(),
+                    game.UpgradeLVL.ToString(),
+                    (game.CurrentTurn + 1).ToString()
+                };
 
-            // Navigate backwards
-            await Shell.Current.GoToAsync($"{nameof(GameplayHomePage)}?{nameof(GameplayHomePage.GameID)}={game.Filename}");
+                // Put our data into the file
+                File.AppendAllLines(game.Filename, newFileData);
+
+                // Navigate backwards
+                await Shell.Current.GoToAsync($"{nameof(GameplayHomePage)}?{nameof(GameplayHomePage.GameID)}={game.Filename}");
+            }
         }
 
         async void OnGoToStatsPageClicked(object sender, EventArgs e)
@@ -185,29 +196,46 @@ namespace Bookstore_Tycoon.Views
                 UpgradeCost += Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10;
             }
             #endregion
-            int TotalCost = InterestCost + UpkeepCost + AdvertisingCost + InventoryCost + (int)UpgradeCost;
+            int DebtCost = game.OtherBinding1;
+            int TotalCost = InterestCost + UpkeepCost + AdvertisingCost + InventoryCost + (int)UpgradeCost + DebtCost;
 
 
-            MarkupText.Text = "Satisfaction Bonus: " + ((game.Markup - 0.5) * -5).ToString()
-                + Environment.NewLine + (game.Markup * 100).ToString() + "%";
-            UpgradeCostText.Text = "Satisfaction Bonus: " + ( (game.UpgradeLVL + 1.0) / 2.0).ToString()
-                + Environment.NewLine + "Upgrade Cost: $" + UpgradeCost.ToString() + "$" // Need to make this work (data from Excel)
-                + Environment.NewLine + "Upkeep Cost: $" + UpkeepCost.ToString() + "$";
-            UpgradeLVLText.Text = game.UpgradeLVL.ToString();
-            AdvertisingText.Text = "Advert. Bonus Increase: " + ((game.AdvertBonus - gameOnFile.AdvertBonus) * 100).ToString() + "%"
+            MarkupText.Text = "Markup: " + (game.Markup * 100) + "%"
+                + Environment.NewLine + "Satisfaction Bonus: " + ((game.Markup - 0.5) * -5);
+            UpgradeLVLText.Text = "Upgrade Level: " + game.UpgradeLVL
+                + Environment.NewLine + "Satisfaction Bonus: " + ((game.UpgradeLVL + 1.0) / 2.0)
+                + Environment.NewLine + "Upgrade Cost: $" + UpgradeCost
+                + Environment.NewLine + "Upkeep Cost: $" + UpkeepCost;
+            AdvertisingText.Text = "Advert. Bonus Increase: " + ((game.AdvertBonus - gameOnFile.AdvertBonus) * 100) + "%"
                 + Environment.NewLine + "Cost: $" + AdvertisingCost;
-            InventoryText.Text = "Inventory: " + game.Inventory.ToString()
+            InventoryText.Text = "Inventory: " + game.Inventory
                 + Environment.NewLine + "Cost: $" + InventoryCost;
+            if (game.OtherBinding1 > 0)
+            {
+                DebtText.Text = "Current Debt: $" + (game.CurrentDebt + game.OtherBinding1)
+                    + Environment.NewLine + "Debt Change: +$" + game.OtherBinding1;
+            }
+            else if (game.OtherBinding1 < 0)
+            {
+                DebtText.Text = "Current Debt: $" + (game.CurrentDebt + game.OtherBinding1)
+                    + Environment.NewLine + "Debt Change: -$" + -game.OtherBinding1;
+            }
+            else
+            {
+                DebtText.Text = "Current Debt: $" + (game.CurrentDebt + game.OtherBinding1)
+                    + Environment.NewLine + "Debt Change: None";
+            }
 
-            ExpensesText.Text = $"Interest({game.Interest * 100}%): $" + InterestCost.ToString()
-                + Environment.NewLine + "Upkeep: $" + UpkeepCost.ToString() + "$"
-                + Environment.NewLine + "Advertising: $" + AdvertisingCost.ToString()
-                + Environment.NewLine + "Inventory: $" + InventoryCost.ToString()
-                + Environment.NewLine + "Upgrades: $" + UpgradeCost.ToString()
-                + Environment.NewLine + "Towards Debts: " + "<Feature Unavilable!>"
-                + Environment.NewLine + "Total Expenses: $" + TotalCost.ToString()
-                + Environment.NewLine + "Current Cash: $" + gameOnFile.CurrentCash.ToString()
-                + Environment.NewLine + "New Total Cash: $" + (gameOnFile.CurrentCash - TotalCost).ToString();
+            ExpensesText.Text = $"Interest({game.Interest * 100}%): $" + InterestCost
+                + Environment.NewLine + "Upkeep: $" + UpkeepCost + "$"
+                + Environment.NewLine + "Advertising: $" + AdvertisingCost
+                + Environment.NewLine + "Inventory: $" + InventoryCost
+                + Environment.NewLine + "Upgrades: $" + UpgradeCost
+                + Environment.NewLine + "Towards Debts: $" + -game.OtherBinding1
+                + Environment.NewLine + "Total Expenses: $" + TotalCost
+                + Environment.NewLine + "Current Cash: $" + gameOnFile.CurrentCash
+                + Environment.NewLine + "New Total Cash: $" + (gameOnFile.CurrentCash - TotalCost);
+            ErrorText.Text = "";
         }
     }
 }

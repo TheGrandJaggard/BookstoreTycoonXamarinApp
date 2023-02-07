@@ -25,7 +25,7 @@ namespace Bookstore_Tycoon.Views
         {
             InitializeComponent();
             // Set the BindingContext of the page to a new set of game stats.
-            BindingContext = new GameData();
+            BindingContext = new RollingInfo();
         }
 
         void LoadGame(string filename)

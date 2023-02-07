@@ -54,9 +54,21 @@
                      Value="{Binding Inventory}"
                      ValueChanged="OnUpdateBindings" />
 
+            <Label Text="You may pay off your debts, or take out more debt." />
+            <Label Text="(You can only take out as much debt as the amount of cash you currently have)" />
+            <Label x:Name="DebtText" />
+            <Stepper x:Name="DebtStepper"
+                     Maximum="10"
+                     Minimum="0"
+                     Increment="100"
+                     Value="{Binding OtherBinding1}"
+                     ValueChanged="OnUpdateBindings" />
+
             <Label Text="Total Expenses:" />
             <Label x:Name="ExpensesText" />
-
+            <Label x:Name="ErrorText"
+                   TextColor="Red" />
+            
             <Button Text="Continue"
                     Clicked="OnContinueButtonClicked" />
         

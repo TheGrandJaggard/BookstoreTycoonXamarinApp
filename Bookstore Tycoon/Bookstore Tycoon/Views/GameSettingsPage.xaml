@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bookstore_Tycoon.Views.GameSettingsPage"
-             Title="Note Entry">
+             Title="Game Creation">
 
     <!-- Layout children vertically -->
     <ScrollView>
@@ -12,12 +12,15 @@
                    HeightRequest="40"
                    Text="{Binding GameName}" />
 
+            <Label Text="If this is your first time playing I highly suggest leaving the default values."
+                   FontAttributes="Bold"/>
+
             <Label Text="If you are playing with real dice turn this on" />
             <Switch x:Name="RealDiceSwitch"
                     IsToggled="{Binding RealDice}"
                     Toggled="OnUpdateBindings"/>
 
-            <Label Text="Please chose the length of your game (in months)"  />
+            <Label Text="Please chose the length of your game (in months)" />
             <Label x:Name="GameLenghText"/>
             <Stepper x:Name="GameLenghStepper"
                      Maximum="12"
@@ -26,7 +29,7 @@
                      Value="{Binding GameLength}"
                      ValueChanged="OnUpdateBindings"/>
 
-            <Label Text="Please chose your starting cash"  />
+            <Label Text="Please chose your starting cash" />
             <Label x:Name="StartingCashText"/>
             <Stepper x:Name="StartingCashStepper"
                      Maximum="1000"
@@ -35,7 +38,7 @@
                      Value="{Binding StartingCash}"
                      ValueChanged="OnUpdateBindings"/>
 
-            <Label Text="Please chose your money multiplier"  />
+            <Label Text="Please chose your money multiplier" />
             <Label x:Name="MoneyMultiplierText"/>
             <Stepper x:Name="MoneyMultiplierStepper"
                      Maximum="4"
@@ -49,7 +52,7 @@
                     IsToggled="{Binding RandomEvents}"
                     Toggled="OnUpdateBindings"/>
 
-            <Label Text="Please chose your advertisement base value"  />
+            <Label Text="Please chose your advertisement base value" />
             <Label x:Name="AdvertBaseText"/>
             <Stepper x:Name="AdvertBaseStepper"
                      Maximum="10"
@@ -79,6 +82,8 @@
                         Text="Paste Settings"
                         Clicked="OnPasteSettings"/>
             </Grid>
+            <Label x:Name="CopyPasteStatusText"
+                   Text=""/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

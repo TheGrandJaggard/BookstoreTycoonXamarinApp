@@ -31,5 +31,7 @@ namespace Bookstore_Tycoon.Models
         public int AdvertTotal { get; set; }        // derived from advert base and AdvertBonus
         public double SatisfactionBonus {get; set;} // derived from Markup and UpgradeLVL
         public int Score { get; set; }              // derived from things & stuff
+        public int OtherBinding1 { get; set; }      // just to use as another binidng when this is the binding object of the page
+        public int OtherBinding2 { get; set; }      // same as above
     }
 }

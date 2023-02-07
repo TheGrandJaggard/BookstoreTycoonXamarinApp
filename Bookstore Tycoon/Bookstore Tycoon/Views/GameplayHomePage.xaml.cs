@@ -11,6 +11,7 @@ namespace Bookstore_Tycoon.Views
     public partial class GameplayHomePage : ContentPage
     {
         private bool MonthlyManagement = false;
+        private bool EndOfGame = false;
 
         public string GameID
         {
@@ -40,22 +41,12 @@ namespace Bookstore_Tycoon.Views
                     GameData game = new GameData
                     {
                         Filename = filename,
-                        Date = File.GetCreationTime(filename),
                         GameName = fileData[0],
-                        RealDice = Convert.ToBoolean(fileData[1]),
                         GameLength = Convert.ToInt32(fileData[2]),
-                        StartingCash = Convert.ToInt32(fileData[3]),
-                        MoneyMultiplier = Convert.ToDouble(fileData[4]),
-                        RandomEvents = Convert.ToBoolean(fileData[5]),
-                        AdvertBase = Convert.ToDouble(fileData[6]),
-                        CurrentCash = Convert.ToInt32(fileData[7]),
-                        CurrentDebt = Convert.ToInt32(fileData[8]),
-                        Markup = Convert.ToDouble(fileData[9]),
-                        AdvertBonus = Convert.ToDouble(fileData[10]),
-                        Interest = Convert.ToDouble(fileData[11]),
-                        Inventory = Convert.ToInt32(fileData[12]),
-                        UpgradeLVL = Convert.ToInt32(fileData[13]),
-                        CurrentTurn = Convert.ToInt32(fileData[14])
+                        CurrentTurn = Convert.ToInt32(fileData[14]),
+                        Score = (int)(Convert.ToInt32(fileData[7]) / Convert.ToDouble(fileData[4])
+                        + Convert.ToDouble(fileData[10]) * 200
+                        - Convert.ToInt32(fileData[8]) * 1.1)
                     };
                     BindingContext = game;
                 }
@@ -79,14 +70,19 @@ namespace Bookstore_Tycoon.Views
             ScoreText.Text = "Your score is: " + game.Score.ToString() + Environment.NewLine;
             CurrentTurnText.Text = $"Your are on turn: {game.CurrentTurn}{Environment.NewLine}That is, month: {month} and week: {week}";
 
+            if (game.GameLength == month)
+            {
+                ContinueButton.Text = "The Game is over!";
+                EndOfGame = true;
+            }
             if (week == 0)
             {
-                ContinueButton.Text = "Continue to monthly management" + Environment.NewLine;
+                ContinueButton.Text = "Continue to monthly management";
                 MonthlyManagement = true;
             }
             else
             {
-                ContinueButton.Text = $"Continue to week #{week} of month #{month}" + Environment.NewLine;
+                ContinueButton.Text = $"Continue to week #{week} of month #{month}";
                 MonthlyManagement = false;
             }
         }
@@ -94,7 +90,11 @@ namespace Bookstore_Tycoon.Views
         async void OnContinueButtonClicked(object sender, EventArgs e)
         {
             var game = (GameData)BindingContext;
-            if (MonthlyManagement == true)
+            if (EndOfGame)
+            {
+
+            }
+            else if (MonthlyManagement == true)
             {
                 if (game.CurrentTurn == 0)
                 {
@@ -105,7 +105,7 @@ namespace Bookstore_Tycoon.Views
                     await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
                 }
             }
-            else
+            else if (MonthlyManagement == false)
             {
                 await Shell.Current.GoToAsync($"{nameof(WeeklyTurnPage)}?{nameof(WeeklyTurnPage.GameID)}={game.Filename}");
             }

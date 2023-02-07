@@ -95,9 +95,7 @@ namespace Bookstore_Tycoon.Views
             }
 
             // Set the data source for the CollectionView to a sorted collection of games.
-            collectionView.ItemsSource = games
-                .OrderBy(d => d.Date)
-                .ToList();
+            collectionView.ItemsSource = games.OrderBy(d => d.Date).Reverse().ToList();
         }
 
         async void OnNewGameClicked(object sender, EventArgs e)
