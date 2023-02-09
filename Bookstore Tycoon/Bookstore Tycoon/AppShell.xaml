@@ -26,9 +26,11 @@
         <ShellContent Title="Game"
                       Icon="icon_feed.png"
                       ContentTemplate="{DataTemplate views:ChooseGamePage}" />
+        <!--
         <ShellContent Title="Settings"
                       Icon="icon_about.png"
                       ContentTemplate="{DataTemplate views:AppSettingsPage}" />
+        -->
         <ShellContent Title="About"
                       Icon="icon_about.png"
                       ContentTemplate="{DataTemplate views:AboutPage}" />
