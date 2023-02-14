@@ -64,8 +64,16 @@ namespace Bookstore_Tycoon.Views
                     UpgradeLVLStepper.Minimum = game.UpgradeLVL;
                     AdvertisingStepper.Minimum = game.AdvertBonus;
                     InventoryStepper.Minimum = game.Inventory;
-                    DebtStepper.Minimum = -game.CurrentDebt;
-                    DebtStepper.Maximum = game.CurrentCash;
+                    if (game.CurrentTurn == 0)
+                    {
+                        DebtStepper.Minimum = -0.1;
+                        DebtStepper.Maximum = 0.1;
+                    }
+                    else
+                    {
+                        DebtStepper.Minimum = -game.CurrentDebt;
+                        DebtStepper.Maximum = game.CurrentCash;
+                    }
                 }
                 else
                 {
@@ -108,7 +116,7 @@ namespace Bookstore_Tycoon.Views
                 UpgradeCost += Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10;
             }
             #endregion
-            int DebtCost = game.OtherBinding1;
+            int DebtCost = -game.OtherBinding1;
             int TotalCost = InterestCost + UpkeepCost + AdvertisingCost + InventoryCost + (int)UpgradeCost + DebtCost;
             game.CurrentCash -= TotalCost;
 
@@ -183,7 +191,7 @@ namespace Bookstore_Tycoon.Views
                 CurrentTurn = Convert.ToInt32(fileData[14]),
             };
 
-            // Here I have to do the computations (I'll have to copy this over to the saving function too)
+            // Here I have to do the computations
 
             int InterestCost = (int)(game.Interest * game.CurrentDebt);
             int UpkeepCost = (gameOnFile.UpgradeLVL ^ 2) + 25;
@@ -196,7 +204,7 @@ namespace Bookstore_Tycoon.Views
                 UpgradeCost += Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10;
             }
             #endregion
-            int DebtCost = game.OtherBinding1;
+            int DebtCost = -game.OtherBinding1;
             int TotalCost = InterestCost + UpkeepCost + AdvertisingCost + InventoryCost + (int)UpgradeCost + DebtCost;
 
 
@@ -206,32 +214,38 @@ namespace Bookstore_Tycoon.Views
                 + Environment.NewLine + "Satisfaction Bonus: " + ((game.UpgradeLVL + 1.0) / 2.0)
                 + Environment.NewLine + "Upgrade Cost: $" + UpgradeCost
                 + Environment.NewLine + "Upkeep Cost: $" + UpkeepCost;
-            AdvertisingText.Text = "Advert. Bonus Increase: " + ((game.AdvertBonus - gameOnFile.AdvertBonus) * 100) + "%"
+            AdvertisingText.Text = "Advert. Bonus Increase: " + ((game.AdvertBonus - gameOnFile.AdvertBonus) * 100)
                 + Environment.NewLine + "Cost: $" + AdvertisingCost;
             InventoryText.Text = "Inventory: " + game.Inventory
                 + Environment.NewLine + "Cost: $" + InventoryCost;
+
+            string TowardsDebtText = "0";
             if (game.OtherBinding1 > 0)
             {
                 DebtText.Text = "Current Debt: $" + (game.CurrentDebt + game.OtherBinding1)
                     + Environment.NewLine + "Debt Change: +$" + game.OtherBinding1;
+                TowardsDebtText = "Towards Debt: -$" + game.OtherBinding1;
             }
             else if (game.OtherBinding1 < 0)
             {
                 DebtText.Text = "Current Debt: $" + (game.CurrentDebt + game.OtherBinding1)
                     + Environment.NewLine + "Debt Change: -$" + -game.OtherBinding1;
+                TowardsDebtText = "Towards Debt: $" + -game.OtherBinding1;
             }
             else
             {
                 DebtText.Text = "Current Debt: $" + (game.CurrentDebt + game.OtherBinding1)
                     + Environment.NewLine + "Debt Change: None";
+                TowardsDebtText = "Towards Debt: $0";
             }
+
 
             ExpensesText.Text = $"Interest({game.Interest * 100}%): $" + InterestCost
                 + Environment.NewLine + "Upkeep: $" + UpkeepCost + "$"
                 + Environment.NewLine + "Advertising: $" + AdvertisingCost
                 + Environment.NewLine + "Inventory: $" + InventoryCost
                 + Environment.NewLine + "Upgrades: $" + UpgradeCost
-                + Environment.NewLine + "Towards Debts: $" + -game.OtherBinding1
+                + Environment.NewLine + "" + TowardsDebtText
                 + Environment.NewLine + "Total Expenses: $" + TotalCost
                 + Environment.NewLine + "Current Cash: $" + gameOnFile.CurrentCash
                 + Environment.NewLine + "New Total Cash: $" + (gameOnFile.CurrentCash - TotalCost);
