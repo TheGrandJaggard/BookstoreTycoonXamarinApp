@@ -14,7 +14,7 @@
         <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
 
             <Label Text="You may change your Markup:" />
-            <Label Text="(Markup does not cost anything to change)" />
+            <Label x:Name="MarkupDescriptionText" />
             <Label x:Name="MarkupText" />
             <Stepper x:Name="MarkupStepper"
                      Maximum="1.00"
@@ -24,9 +24,8 @@
                      ValueChanged="OnUpdateBindings" />
 
             <Label Text="You may Upgrade your shop:" />
-            <Label Text="(The cost of upgrading your shop and upkeep increases per upgrade)"/>
-            <Label x:Name="UpgradeCostText" />
-            <Label x:Name="UpgradeLVLText" />
+            <Label x:Name="UpgradeDescriptionText" />
+            <Label x:Name="UpgradeText" />
             <Stepper x:Name="UpgradeLVLStepper"
                      Maximum="12"
                      Minimum="1"
@@ -35,7 +34,7 @@
                      ValueChanged="OnUpdateBindings" />
 
             <Label Text="Please chose your Advertising:" />
-            <Label Text="(Advertisement cost scales up as the advertising bonus increases)" />
+            <Label x:Name="AdvertisingDescriptionText" />
             <Label x:Name="AdvertisingText" />
             <Stepper x:Name="AdvertisingStepper"
                      Maximum="0.50"
@@ -45,7 +44,7 @@
                      ValueChanged="OnUpdateBindings"/>
 
             <Label Text="Please chose your Inventory:" />
-            <Label Text="(It costs $200 to increase your inventory)" />
+            <Label x:Name="InventoryDescriptionText" />
             <Label x:Name="InventoryText" />
             <Stepper x:Name="InventoryStepper"
                      Maximum="10"
@@ -55,7 +54,7 @@
                      ValueChanged="OnUpdateBindings" />
 
             <Label Text="You may pay off your debts, or take out more debt." />
-            <Label Text="(You can only take out as much debt as the amount of cash you currently have)" />
+            <Label x:Name="DebtDescriptionText" />
             <Label x:Name="DebtText" />
             <Stepper x:Name="DebtStepper"
                      Maximum="10"

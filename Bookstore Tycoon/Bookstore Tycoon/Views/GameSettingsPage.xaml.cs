@@ -64,7 +64,7 @@ namespace Bookstore_Tycoon.Views
                             Filename = filename,
                             // we are creating these values from scratch
                             Date = DateTime.Now,
-                            GameName = "Unnamed Game",
+                            GameName = "My New Game",
                             RealDice = true,
                             GameLength = 6,
                             StartingCash = 500,
@@ -200,15 +200,16 @@ namespace Bookstore_Tycoon.Views
         {
             var game = (GameData)BindingContext;
 
-            RealDiceSwitch.IsToggled = game.RealDice;
-            GameLenghText.Text = game.GameLength.ToString();
+            // RealDiceSwitch.IsToggled = game.RealDice;
+            GameLenghText.Text = "Length of your game: " + game.GameLength + " months";
             GameLenghStepper.Value = game.GameLength;
-            StartingCashText.Text = game.StartingCash.ToString();
+            StartingCashText.Text = "Starting Cash: $" + game.StartingCash;
             StartingCashStepper.Value = game.StartingCash;
-            MoneyMultiplierText.Text = game.MoneyMultiplier.ToString();
+            MoneyMultiplierText.Text = "Money Multiplyer: " + game.MoneyMultiplier + "x";
             MoneyMultiplierStepper.Value = game.MoneyMultiplier;
+            RandomEventsText.Text = "If you would like random events in your game turn this on";
             RandomEventsSwitch.IsToggled = game.RandomEvents;
-            AdvertBaseText.Text = game.AdvertBase.ToString();
+            AdvertBaseText.Text = "Advertisment Base Value: " + game.AdvertBase;
             AdvertBaseStepper.Value = game.AdvertBase;
         }
     }

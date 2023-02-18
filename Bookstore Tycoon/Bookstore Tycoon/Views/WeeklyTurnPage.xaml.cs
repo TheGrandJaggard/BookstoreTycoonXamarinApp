@@ -267,7 +267,11 @@ namespace Bookstore_Tycoon.Views
             else { BookRoll5Gained = rolls.BookRoll5; }
             #endregion Dealing with Inventory limits
 
-            #region Limiting Maximums for Satisfaction and Book rolls
+            #region Limiting Maximums for Steppers
+
+            CustomersStepper.Maximum = game.AdvertTotal * 2;
+
+
             int SatisfactionRollsLeft = rolls.Customers - (rolls.SatisfactionRoll0 + rolls.SatisfactionRoll1 + rolls.SatisfactionRoll2
                                                         + rolls.SatisfactionRoll3 + rolls.SatisfactionRoll4 + rolls.SatisfactionRoll5);
             SatisfactionRoll0Stepper.Maximum = rolls.SatisfactionRoll0 + SatisfactionRollsLeft;
@@ -298,39 +302,97 @@ namespace Bookstore_Tycoon.Views
             string BooksLostText = "This round you did not lose any books!";
             if (BooksLost != 0)
             {
-                if (BooksLost == 1)
-                    BooksLostText = $"But... you also lost {BooksLost} book.";
-                else
-                    BooksLostText = $"But... you also lost {BooksLost} books.";
+                BooksLostText = BooksLost == 1 ? $"But... you also lost {BooksLost} book." : $"But... you also lost {BooksLost} books.";
             }
-            
 
-            AdvertisingRoll.Text = $"Roll {game.AdvertTotal} dice for advertising. " +
-                $"Enter the result below. This is how many people come into your store.";
+            if (game.CurrentTurn == 1)
+            {
+                AdvertisingRoll.Text = $"Every turn you start by rolling your 'advertising' die. " +
+                    $"The number of die you roll is dependant on your advertisment total, which for you is {game.AdvertTotal}. " +
+                    $"Once you have rolled the all die (roll them all at once), remove each dice that shows 1 and add an extra dice for each 6. " +
+                    $"(The 1s don't come to the store and the 6s bring friends.) " +
+                    $"Now, each dice represents one customer in your store. " +
+                    $"Enter that number below and start rolling for satisfaction";
 
-            CustomersText.Text = $"Customers:   {rolls.Customers}";
+                CustomersText.Text = $"Customers:    {rolls.Customers}";
 
-            SatisfactionRoll.Text = $"Now roll {rolls.Customers} dice. What number of each roll did you get?";
-            SatisfactionRoll0Text.Text = $"Rolls of 1:   {rolls.SatisfactionRoll0}";
-            SatisfactionRoll1Text.Text = $"Rolls of 2:   {rolls.SatisfactionRoll1}";
-            SatisfactionRoll2Text.Text = $"Rolls of 3:   {rolls.SatisfactionRoll2}";
-            SatisfactionRoll3Text.Text = $"Rolls of 4:   {rolls.SatisfactionRoll3}";
-            SatisfactionRoll4Text.Text = $"Rolls of 5:   {rolls.SatisfactionRoll4}";
-            SatisfactionRoll5Text.Text = $"Rolls of 6:   {rolls.SatisfactionRoll5}";
+                SatisfactionRoll.Text = $"Roll your handful of dice, each representing one customer in your store. " +
+                    $"(For you that is {rolls.Customers} dice.) " +
+                    $"Enter your rolls below.";
 
-            SatsifactionResults.Text = $"This week you sell {BooksSold} books." +
-                Environment.NewLine + $"Your advertisment bonus goes up {AdvertBonusIncrease} from good reviews.";
+                SatisfactionRoll0Text.Text = $"Rolls of 1 (Satisfaction +0):    {rolls.SatisfactionRoll0}";
+                SatisfactionRoll1Text.Text = $"Rolls of 2 (Satisfaction +1):    {rolls.SatisfactionRoll1}";
+                SatisfactionRoll2Text.Text = $"Rolls of 3 (Satisfaction +1):    {rolls.SatisfactionRoll2}";
+                SatisfactionRoll3Text.Text = $"Rolls of 4 (Satisfaction +2):    {rolls.SatisfactionRoll3}";
+                SatisfactionRoll4Text.Text = $"Rolls of 5 (Satisfaction +2):    {rolls.SatisfactionRoll4}";
+                SatisfactionRoll5Text.Text = $"Rolls of 6 (Satisfaction +3):    {rolls.SatisfactionRoll5}";
 
-            BookRoll.Text = $"Roll {BooksSold} dice. What number of each roll did you get?";
-            BookRoll0Text.Text = $"Rolls of 1:   {rolls.BookRoll0}";
-            BookRoll1Text.Text = $"Rolls of 2:   {rolls.BookRoll1}";
-            BookRoll2Text.Text = $"Rolls of 3:   {rolls.BookRoll2}";
-            BookRoll3Text.Text = $"Rolls of 4:   {rolls.BookRoll3}";
-            BookRoll4Text.Text = $"Rolls of 5:   {rolls.BookRoll4}";
-            BookRoll5Text.Text = $"Rolls of 6:   {rolls.BookRoll5}";
+                SatsifactionResults.Text = $"The roll that you just made is the 'Satisfaction Roll.' " +
+                    $"This effects how happy people are with your store. " +
+                    $"Each customer's satisfaction roll result is added to your satisfaction bonus. " +
+                    $"(For you this is {game.SatisfactionBonus}.) " +
+                    $"If the total satisfaction of a customer is four or greater, then they buy a book. " +
+                    $"If it is six or greater they they also leave a good review and your advertisment bonus goes up 1%. " +
+                    $"If it is eight or greater than they will buy a second book on top of all that! " +
+                    $"So for you this week it means that you sell {BooksSold} books and your advertisment bonus goes up {AdvertBonusIncrease}% from good reviews. " +
+                    $"(It is normal for this to be zero at the beginning of the game.)";
 
-            BooksResults.Text = $"Results: You sold {TotalBooksGained} books, gaining ${CashIncrease}." +
-                Environment.NewLine + $"{BooksLostText}";
+                BookRoll.Text = $"Now roll a dice for each book you are selling this week. " +
+                    $"(That would be {BooksSold} dice.) " +
+                    $"This is to determine what price of books your customers want. " +
+                    $"As always, enter those results below so we can do all the fun calculatons for you. ";
+                BookRoll0Text.Text = $"Rolls of 1:    {rolls.BookRoll0}" +
+                    Environment.NewLine + $"These are magazines. They have wholesale values of $20";
+                BookRoll1Text.Text = $"Rolls of 2:    {rolls.BookRoll1}" +
+                    Environment.NewLine + $"These are pulp fictions. They have wholesale values of $30";
+                BookRoll2Text.Text = $"Rolls of 3:    {rolls.BookRoll2}" +
+                    Environment.NewLine + $"These are paperbacks. They have wholesale values of $40";
+                BookRoll3Text.Text = $"Rolls of 4:    {rolls.BookRoll3}" +
+                    Environment.NewLine + $"These are hardcovers. They have wholesale values of $50";
+                BookRoll4Text.Text = $"Rolls of 5:    {rolls.BookRoll4}" +
+                    Environment.NewLine + $"These are leatherbound books. They have wholesale values of $60";
+                BookRoll5Text.Text = $"Rolls of 6:    {rolls.BookRoll5}" +
+                    Environment.NewLine + $"These are boxed sets. They have wholesale values of $70";
+
+                BooksResults.Text = $"Each book you sell does not profit you the wholesale value though, that is how much you buy the book from the publisher for. " +
+                    $"Instead, your profit is your markup percentage of that. " +
+                    $"So for example, you buy a paperback from the publisher for $40. " +
+                    $"Then, because your markup is {game.Markup * 100}% you sell it to a customer for ${40 + (40 * game.Markup)}. " +
+                    $"You then buy another book from the publiser for $40, leaving yourself ${40 * game.Markup} of profit. " +
+                    Environment.NewLine + $"In total this turn, you sold {TotalBooksGained} books, and gained ${CashIncrease}. " +
+                    $"Because of the inventory limit, if you try to sell more books in any one catagory than your inventory limit, you lose those sales. " +
+                    $"Because of this, you lost {BooksLost} sale(s).";
+            }
+            else
+            {
+                AdvertisingRoll.Text = $"Roll {game.AdvertTotal} dice for advertising. " +
+                    $"Enter the result below. This is how many people come into your store.";
+
+                CustomersText.Text = $"Customers:    {rolls.Customers}";
+
+                SatisfactionRoll.Text = $"Now roll {rolls.Customers} dice and enter your rolls below.";
+
+                SatisfactionRoll0Text.Text = $"Rolls of 1:    {rolls.SatisfactionRoll0}";
+                SatisfactionRoll1Text.Text = $"Rolls of 2:    {rolls.SatisfactionRoll1}";
+                SatisfactionRoll2Text.Text = $"Rolls of 3:    {rolls.SatisfactionRoll2}";
+                SatisfactionRoll3Text.Text = $"Rolls of 4:    {rolls.SatisfactionRoll3}";
+                SatisfactionRoll4Text.Text = $"Rolls of 5:    {rolls.SatisfactionRoll4}";
+                SatisfactionRoll5Text.Text = $"Rolls of 6:    {rolls.SatisfactionRoll5}";
+
+                SatsifactionResults.Text = $"This week you sell {BooksSold} books." +
+                    Environment.NewLine + $"Your advertisment bonus goes up {AdvertBonusIncrease}% from good reviews.";
+
+                BookRoll.Text = $"Roll {BooksSold} dice. What number of each roll did you get?";
+                BookRoll0Text.Text = $"Rolls of 1:    {rolls.BookRoll0}";
+                BookRoll1Text.Text = $"Rolls of 2:    {rolls.BookRoll1}";
+                BookRoll2Text.Text = $"Rolls of 3:    {rolls.BookRoll2}";
+                BookRoll3Text.Text = $"Rolls of 4:    {rolls.BookRoll3}";
+                BookRoll4Text.Text = $"Rolls of 5:    {rolls.BookRoll4}";
+                BookRoll5Text.Text = $"Rolls of 6:    {rolls.BookRoll5}";
+
+                BooksResults.Text = $"Results: You sold {TotalBooksGained} books, gaining ${CashIncrease}." +
+                    Environment.NewLine + $"{BooksLostText}";
+            }
         }
     }
 }

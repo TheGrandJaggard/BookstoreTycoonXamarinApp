@@ -93,9 +93,9 @@ namespace Bookstore_Tycoon.Views
 
             GameNameText.Text = "Game Name: " + game.GameName;
             RealDiceText.Text = "Real Dice: " + game.RealDice;
-            GameLengthText.Text = "Game Length (in months): " + game.GameLength;
+            GameLengthText.Text = "Game Length: " + game.GameLength + " months";
             StartingCashText.Text = "The cash you started with: $" + game.StartingCash;
-            MoneyMultiplierText.Text = "Money Multiplier: " + game.MoneyMultiplier;
+            MoneyMultiplierText.Text = "Money Multiplier: " + game.MoneyMultiplier + "x";
             RandomEventsText.Text = "Random Events: " + game.RandomEvents;
             AdvertBaseText.Text = "Advertisment Base: " + game.AdvertBase;
             CurrentCashText.Text = "Current Cash: $" + game.CurrentCash;

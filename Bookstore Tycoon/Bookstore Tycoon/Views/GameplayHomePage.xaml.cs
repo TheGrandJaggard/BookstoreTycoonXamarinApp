@@ -10,9 +10,6 @@ namespace Bookstore_Tycoon.Views
     [QueryProperty(nameof(GameID), nameof(GameID))]
     public partial class GameplayHomePage : ContentPage
     {
-        private bool MonthlyManagement = false;
-        private bool EndOfGame = false;
-
         public string GameID
         {
             set
@@ -67,45 +64,56 @@ namespace Bookstore_Tycoon.Views
             var month = Math.Floor(game.CurrentTurn / 5.0);
             var week = game.CurrentTurn - month * 5.0;
 
-            ScoreText.Text = "Your score is: " + game.Score.ToString() + Environment.NewLine;
-            CurrentTurnText.Text = $"Your are on turn: {game.CurrentTurn}{Environment.NewLine}That is, month: {month} and week: {week}";
-
-            if (game.GameLength == month)
+            if (game.CurrentTurn == 0)
             {
-                ContinueButton.Text = "The Game is over!";
-                EndOfGame = true;
-            }
-            if (week == 0)
-            {
-                ContinueButton.Text = "Continue to monthly management";
-                MonthlyManagement = true;
+                ScoreText.Text = "Welcome to your new bookstore! " +
+                    "You have just rented a spot in a mall and are now ready to set up shop. " +
+                    "Like you though, multiple other bookstore owners are also setting up in the same mall. " +
+                    "You will have to use your superior business (and might I say, luck) skills to come out in the lead.";
             }
             else
             {
-                ContinueButton.Text = $"Continue to week #{week} of month #{month}";
-                MonthlyManagement = false;
+                ScoreText.Text = "Your score is: " + game.Score.ToString() + Environment.NewLine;
+            }
+            CurrentTurnText.Text = $"Your are on turn: {game.CurrentTurn}{Environment.NewLine}That is, month: {month + 1} and week: {week}";
+
+            if (game.CurrentTurn == 0)
+            {
+                ContinueButton.Text = "Start your bookstore!";
+            }
+            else if (game.GameLength == month)
+            {
+                ContinueButton.Text = "The Game is over!";
+            }
+            else if (week == 0)
+            {
+                ContinueButton.Text = "Continue to monthly management";
+            }
+            else
+            {
+                ContinueButton.Text = $"Continue to week #{week} of month #{month + 1}";
             }
         }
 
         async void OnContinueButtonClicked(object sender, EventArgs e)
         {
             var game = (GameData)BindingContext;
-            if (EndOfGame)
-            {
+            var month = Math.Floor(game.CurrentTurn / 5.0) + 1;
+            var week = game.CurrentTurn - month * 5.0;
 
-            }
-            else if (MonthlyManagement == true)
+            if (game.CurrentTurn == 0)
             {
-                if (game.CurrentTurn == 0)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(MonthlyManagementPage)}?{nameof(MonthlyManagementPage.GameID)}={game.Filename}");
-                }
-                else
-                {
-                    await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
-                }
+                await Shell.Current.GoToAsync($"{nameof(MonthlyManagementPage)}?{nameof(MonthlyManagementPage.GameID)}={game.Filename}");
             }
-            else if (MonthlyManagement == false)
+            else if (game.GameLength == month)
+            {
+                await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
+            }
+            else if (week == 0)
+            {
+                await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
+            }
+            else
             {
                 await Shell.Current.GoToAsync($"{nameof(WeeklyTurnPage)}?{nameof(WeeklyTurnPage.GameID)}={game.Filename}");
             }

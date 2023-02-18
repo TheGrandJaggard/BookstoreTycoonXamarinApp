@@ -7,20 +7,20 @@
     <!-- Layout children vertically -->
     <ScrollView>
         <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
-        
+
+            <Label Text="Please name your game:" />
             <Entry x:Name="GameNameEntry"
                    HeightRequest="40"
                    Text="{Binding GameName}" />
 
-            <Label Text="If this is your first time playing I highly suggest leaving the default values."
-                   FontAttributes="Bold"/>
-
+            <Label Text="The following settings will affect the rest of your game. They should be the same for all players in the game. If you would like to share your set of settings with the other players in the game then click 'Copy and Continue' at the bottom of this page and send it to the other players. They can then copy it to their clipboards and press 'Paste and Continue' to have the same settings as you. Note: If this is your first time playing I highly suggest leaving the default values."/>
+            
+            <!--
             <Label Text="If you are playing with real dice turn this on" />
             <Switch x:Name="RealDiceSwitch"
                     IsToggled="{Binding RealDice}"
-                    Toggled="OnUpdateBindings"/>
+                    Toggled="OnUpdateBindings"/> -->
 
-            <Label Text="Please chose the length of your game (in months)" />
             <Label x:Name="GameLenghText"/>
             <Stepper x:Name="GameLenghStepper"
                      Maximum="12"
@@ -29,7 +29,6 @@
                      Value="{Binding GameLength}"
                      ValueChanged="OnUpdateBindings"/>
 
-            <Label Text="Please chose your starting cash" />
             <Label x:Name="StartingCashText"/>
             <Stepper x:Name="StartingCashStepper"
                      Maximum="1000"
@@ -38,7 +37,6 @@
                      Value="{Binding StartingCash}"
                      ValueChanged="OnUpdateBindings"/>
 
-            <Label Text="Please chose your money multiplier" />
             <Label x:Name="MoneyMultiplierText"/>
             <Stepper x:Name="MoneyMultiplierStepper"
                      Maximum="4"
@@ -47,12 +45,11 @@
                      Value="{Binding MoneyMultiplier}"
                      ValueChanged="OnUpdateBindings"/>
 
-            <Label Text="If you would like random events in your game turn this on" />
+            <Label x:Name="RandomEventsText"/>
             <Switch x:Name="RandomEventsSwitch"
                     IsToggled="{Binding RandomEvents}"
                     Toggled="OnUpdateBindings"/>
 
-            <Label Text="Please chose your advertisement base value" />
             <Label x:Name="AdvertBaseText"/>
             <Stepper x:Name="AdvertBaseStepper"
                      Maximum="10"
@@ -74,12 +71,12 @@
 
                 <Button Grid.Column="0"
                         Grid.Row="1"
-                        Text="Copy Settings"
+                        Text="Copy and Continue"
                         Clicked="OnCopySettings" />
 
                 <Button Grid.Column="1"
                         Grid.Row="1"
-                        Text="Paste Settings"
+                        Text="Paste and Continue"
                         Clicked="OnPasteSettings"/>
             </Grid>
             <Label x:Name="CopyPasteStatusText"

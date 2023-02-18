@@ -20,7 +20,8 @@
                 <Label Grid.Row="0"
                        Grid.Column="0"
                        x:Name="CustomersText"/>
-                <Stepper Grid.Row="0"
+                <Stepper x:Name="CustomersStepper"
+                         Grid.Row="0"
                          Grid.Column="1"
                          Maximum="30"
                          Minimum="0"

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Bookstore_Tycoon.Models;
 using Xamarin.Forms;
-using Xamarin.Essentials;
 using System.Diagnostics;
 
 namespace Bookstore_Tycoon.Views
@@ -199,9 +198,9 @@ namespace Bookstore_Tycoon.Views
             int InventoryCost = (game.Inventory - gameOnFile.Inventory) * 200;
             #region int UpgradeCost = for (more info) { see inside }
             double UpgradeCost = 0;
-            for (double i = gameOnFile.UpgradeLVL; i < game.UpgradeLVL; i++)
+            for (int i = gameOnFile.UpgradeLVL; i < game.UpgradeLVL; i++)
             {
-                UpgradeCost += Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10;
+                UpgradeCost += Math.Floor(Math.Pow((double)i / 2, 1.9) * 40) + 10;
             }
             #endregion
             int DebtCost = -game.OtherBinding1;
@@ -210,7 +209,7 @@ namespace Bookstore_Tycoon.Views
 
             MarkupText.Text = "Markup: " + (game.Markup * 100) + "%"
                 + Environment.NewLine + "Satisfaction Bonus: " + ((game.Markup - 0.5) * -5);
-            UpgradeLVLText.Text = "Upgrade Level: " + game.UpgradeLVL
+            UpgradeText.Text = "Upgrade Level: " + game.UpgradeLVL
                 + Environment.NewLine + "Satisfaction Bonus: " + ((game.UpgradeLVL + 1.0) / 2.0)
                 + Environment.NewLine + "Upgrade Cost: $" + UpgradeCost
                 + Environment.NewLine + "Upkeep Cost: $" + UpkeepCost;
@@ -219,7 +218,7 @@ namespace Bookstore_Tycoon.Views
             InventoryText.Text = "Inventory: " + game.Inventory
                 + Environment.NewLine + "Cost: $" + InventoryCost;
 
-            string TowardsDebtText = "0";
+            string TowardsDebtText;
             if (game.OtherBinding1 > 0)
             {
                 DebtText.Text = "Current Debt: $" + (game.CurrentDebt + game.OtherBinding1)
@@ -250,6 +249,36 @@ namespace Bookstore_Tycoon.Views
                 + Environment.NewLine + "Current Cash: $" + gameOnFile.CurrentCash
                 + Environment.NewLine + "New Total Cash: $" + (gameOnFile.CurrentCash - TotalCost);
             ErrorText.Text = "";
+
+            if (game.CurrentTurn == 0)
+            {
+                MarkupDescriptionText.Text = "Markup is how much extra you charge for each book you sell. " +
+                    "So, for example, if you sell a $10 book with 50% markup, then the customer will pay you $15, you will spend $10 on buying a new book, and you will have $5 of profit. " +
+                    "However, the more you charge, the less people will want to buy your books, so they will not be as satisfied with your shop. " +
+                    "(If your customers are not satisfied with your store then they will not buy books.) " +
+                    "It does not cost anything to change.";
+                UpgradeDescriptionText.Text = "Every upgrade increases your customer's satisfaction by 0.5. " +
+                    "Unfortunately for you, each upgrade is also more expensive than the one before it. " +
+                    "Each upgrade increases your store's upkeep cost as well. (this includes maintenance, utilities, rent, etc.) ";
+                AdvertisingDescriptionText.Text = "Spending money on advertising increases your advertising bonus, which increases how many people will come to your store each turn. " +
+                    "The more you increase your advertising though, the more it costs.";
+                InventoryDescriptionText.Text = "Your inventory is how many of each book you have. " +
+                    "If you don't have a book then you can't sell it, so this is important " +
+                    "(if you don't have any inventory then you can't sell anything!) " +
+                    "Inventory costs $200 to increase, and whenever you sell a book you automaticaly get another, thereby keeping the same amount of inventory";
+                DebtDescriptionText.Text = "This is your debt. The first month (this month), you cannot change it. " +
+                    "On a normal turn though, you can pay it off or you can increase it. " +
+                    "(You can only take out as much debt as the amount of cash you currently have.) " +
+                    "Your interest is paid on your debt, so paying it off has direct benifits.";
+            }
+            else
+            {
+                MarkupDescriptionText.Text = "(Markup does not cost anything to change)";
+                UpgradeDescriptionText.Text = "(The cost of upgrading your shop and upkeep increases per upgrade)";
+                AdvertisingDescriptionText.Text = "(Advertisement cost scales up as the advertising bonus increases)";
+                InventoryDescriptionText.Text = "(It costs $200 to increase your inventory)";
+                DebtDescriptionText.Text = "(You can only take out as much debt as the amount of cash you currently have)";
+            }
         }
     }
 }
