@@ -42,20 +42,19 @@ namespace Bookstore_Tycoon.Views
                         Date = File.GetCreationTime(filename),
                         // these values all come from the .gamedata.txt file
                         GameName = fileData[0],
-                        RealDice = Convert.ToBoolean(fileData[1]),
-                        GameLength = Convert.ToInt32(fileData[2]),
-                        StartingCash = Convert.ToInt32(fileData[3]),
-                        MoneyMultiplier = Convert.ToDouble(fileData[4]),
-                        RandomEvents = Convert.ToBoolean(fileData[5]),
-                        AdvertBase = Convert.ToDouble(fileData[6]),
-                        CurrentCash = Convert.ToInt32(fileData[7]),
-                        CurrentDebt = Convert.ToInt32(fileData[8]),
-                        Markup = Convert.ToDouble(fileData[9]),
-                        AdvertBonus = Convert.ToDouble(fileData[10]),
-                        Interest = Convert.ToDouble(fileData[11]),
+                        GameLength = Convert.ToInt32(fileData[1]),
+                        StartingCash = Convert.ToInt32(fileData[2]),
+                        MoneyMultiplier = Convert.ToDouble(fileData[3]),
+                        RandomEvents = Convert.ToBoolean(fileData[4]),
+                        AdvertBase = Convert.ToDouble(fileData[5]),
+                        CurrentCash = Convert.ToInt32(fileData[6]),
+                        CurrentDebt = Convert.ToInt32(fileData[7]),
+                        Markup = Convert.ToDouble(fileData[8]),
+                        AdvertBonus = Convert.ToDouble(fileData[9]),
+                        Interest = Convert.ToDouble(fileData[10]),
                         Inventory = Convert.ToInt32(fileData[12]),
-                        UpgradeLVL = Convert.ToInt32(fileData[13]),
-                        CurrentTurn = Convert.ToInt32(fileData[14])
+                        UpgradeLVL = Convert.ToInt32(fileData[12]),
+                        CurrentTurn = Convert.ToInt32(fileData[13]),
                     };
                     BindingContext = game;
 
@@ -137,7 +136,6 @@ namespace Bookstore_Tycoon.Views
                 var newFileData = new List<string>
                 {
                     game.GameName,
-                    game.RealDice.ToString(),
                     game.GameLength.ToString(),
                     game.StartingCash.ToString(),
                     game.MoneyMultiplier.ToString(),

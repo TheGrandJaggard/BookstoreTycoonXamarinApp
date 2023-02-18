@@ -47,7 +47,6 @@ namespace Bookstore_Tycoon.Views
                             Date = File.GetCreationTime(filename),
                             // these values all come from the .gamedata.txt file
                             GameName = fileData[0],
-                            RealDice = Convert.ToBoolean(fileData[1]),
                             GameLength = Convert.ToInt32(fileData[2]),
                             StartingCash = Convert.ToInt32(fileData[3]),
                             MoneyMultiplier = Convert.ToDouble(fileData[4]),
@@ -65,7 +64,6 @@ namespace Bookstore_Tycoon.Views
                             // we are creating these values from scratch
                             Date = DateTime.Now,
                             GameName = "My New Game",
-                            RealDice = true,
                             GameLength = 6,
                             StartingCash = 500,
                             MoneyMultiplier = 1.0,
@@ -116,9 +114,8 @@ namespace Bookstore_Tycoon.Views
 
             // Here is the data we will put onto the clipboard
             var clipboardData =
-                "Copy this to your clipboard then press 'paste settings' in the game." + Environment.NewLine +
+                "Copy this to your clipboard then press 'paste and continue' in the game." + Environment.NewLine +
                 game.GameName + Environment.NewLine +
-                game.RealDice.ToString() + Environment.NewLine +
                 game.GameLength.ToString() + Environment.NewLine +
                 game.StartingCash.ToString() + Environment.NewLine +
                 game.MoneyMultiplier.ToString() + Environment.NewLine +
@@ -138,15 +135,14 @@ namespace Bookstore_Tycoon.Views
                 var clipboardText = await Clipboard.GetTextAsync();
                 var clipboardData = clipboardText.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-                if (clipboardData[0] == "Copy this to your clipboard then press 'paste settings' in the game.")
+                if (clipboardData[0] == "Copy this to your clipboard then press 'paste and continue' in the game.")
                 {
                     game.GameName = clipboardData[1];
-                    game.RealDice = Convert.ToBoolean(clipboardData[2]);
-                    game.GameLength = Convert.ToInt32(clipboardData[3]);
-                    game.StartingCash = Convert.ToInt32(clipboardData[4]);
-                    game.MoneyMultiplier = Convert.ToDouble(clipboardData[5]);
-                    game.RandomEvents = Convert.ToBoolean(clipboardData[6]);
-                    game.AdvertBase = Convert.ToDouble(clipboardData[7]);
+                    game.GameLength = Convert.ToInt32(clipboardData[2]);
+                    game.StartingCash = Convert.ToInt32(clipboardData[3]);
+                    game.MoneyMultiplier = Convert.ToDouble(clipboardData[4]);
+                    game.RandomEvents = Convert.ToBoolean(clipboardData[5]);
+                    game.AdvertBase = Convert.ToDouble(clipboardData[6]);
                     CopyPasteStatusText.Text = "Settings pasted successfully";
                 }
 
@@ -175,7 +171,6 @@ namespace Bookstore_Tycoon.Views
             {
                 // our settings
                 game.GameName,
-                game.RealDice.ToString(),
                 game.GameLength.ToString(),
                 game.StartingCash.ToString(),
                 game.MoneyMultiplier.ToString(),

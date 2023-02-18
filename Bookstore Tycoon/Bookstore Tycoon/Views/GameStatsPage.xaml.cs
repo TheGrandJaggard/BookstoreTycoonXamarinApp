@@ -40,23 +40,23 @@ namespace Bookstore_Tycoon.Views
                     {
                         Filename = filename,
                         Date = File.GetCreationTime(filename),
+                        // these values all come from the .gamedata.txt file
                         GameName = fileData[0],
-                        RealDice = Convert.ToBoolean(fileData[1]),
-                        GameLength = Convert.ToInt32(fileData[2]),
-                        StartingCash = Convert.ToInt32(fileData[3]),
-                        MoneyMultiplier = Convert.ToDouble(fileData[4]),
-                        RandomEvents = Convert.ToBoolean(fileData[5]),
-                        AdvertBase = Convert.ToDouble(fileData[6]),
-                        CurrentCash = Convert.ToInt32(fileData[7]),
-                        CurrentDebt = Convert.ToInt32(fileData[8]),
-                        Markup = Convert.ToDouble(fileData[9]),
-                        AdvertBonus = Convert.ToDouble(fileData[10]),
-                        Interest = Convert.ToDouble(fileData[11]),
+                        GameLength = Convert.ToInt32(fileData[1]),
+                        StartingCash = Convert.ToInt32(fileData[2]),
+                        MoneyMultiplier = Convert.ToDouble(fileData[3]),
+                        RandomEvents = Convert.ToBoolean(fileData[4]),
+                        AdvertBase = Convert.ToDouble(fileData[5]),
+                        CurrentCash = Convert.ToInt32(fileData[6]),
+                        CurrentDebt = Convert.ToInt32(fileData[7]),
+                        Markup = Convert.ToDouble(fileData[8]),
+                        AdvertBonus = Convert.ToDouble(fileData[9]),
+                        Interest = Convert.ToDouble(fileData[10]),
                         Inventory = Convert.ToInt32(fileData[12]),
-                        UpgradeLVL = Convert.ToInt32(fileData[13]),
-                        CurrentTurn = Convert.ToInt32(fileData[14]),
-                        AdvertTotal = (int)Math.Floor(Convert.ToDouble(fileData[6]) + (Convert.ToDouble(fileData[6]) * Convert.ToDouble(fileData[10]) ) ),
-                        SatisfactionBonus = (Convert.ToInt32(fileData[13]) + 1) / 2 + ((Convert.ToDouble(fileData[9]) - 0.5) * -5),
+                        UpgradeLVL = Convert.ToInt32(fileData[12]),
+                        CurrentTurn = Convert.ToInt32(fileData[13]),
+                        AdvertTotal = (int)Math.Floor(Convert.ToDouble(fileData[5]) + (Convert.ToDouble(fileData[5]) * Convert.ToDouble(fileData[9]))),
+                        SatisfactionBonus = (Convert.ToInt32(fileData[12]) + 1) / 2 + ((Convert.ToDouble(fileData[8]) - 0.5) * -5),
                         Score = (int)( Convert.ToInt32(fileData[7]) / Convert.ToDouble(fileData[4])
                         + Convert.ToDouble(fileData[10]) * 200
                         - Convert.ToInt32(fileData[8]) * 1.1)
@@ -92,7 +92,6 @@ namespace Bookstore_Tycoon.Views
             var game = (GameData)BindingContext;
 
             GameNameText.Text = "Game Name: " + game.GameName;
-            RealDiceText.Text = "Real Dice: " + game.RealDice;
             GameLengthText.Text = "Game Length: " + game.GameLength + " months";
             StartingCashText.Text = "The cash you started with: $" + game.StartingCash;
             MoneyMultiplierText.Text = "Money Multiplier: " + game.MoneyMultiplier + "x";

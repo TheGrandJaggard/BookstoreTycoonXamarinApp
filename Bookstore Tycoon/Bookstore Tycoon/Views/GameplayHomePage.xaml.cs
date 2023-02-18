@@ -39,11 +39,11 @@ namespace Bookstore_Tycoon.Views
                     {
                         Filename = filename,
                         GameName = fileData[0],
-                        GameLength = Convert.ToInt32(fileData[2]),
-                        CurrentTurn = Convert.ToInt32(fileData[14]),
-                        Score = (int)(Convert.ToInt32(fileData[7]) / Convert.ToDouble(fileData[4])
-                        + Convert.ToDouble(fileData[10]) * 200
-                        - Convert.ToInt32(fileData[8]) * 1.1)
+                        GameLength = Convert.ToInt32(fileData[1]),
+                        CurrentTurn = Convert.ToInt32(fileData[13]),
+                        Score = (int)(Convert.ToInt32(fileData[8]) / Convert.ToDouble(fileData[4])
+                        + Convert.ToDouble(fileData[9]) * 200
+                        - Convert.ToInt32(fileData[7]) * 1.1)
                     };
                     BindingContext = game;
                 }

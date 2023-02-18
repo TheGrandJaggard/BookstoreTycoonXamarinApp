@@ -11,21 +11,20 @@ namespace Bookstore_Tycoon.Models
         // This data is in the file
         //     This data is set at the begining of the game and does not change
         public string GameName { get; set; }        // stored on line 0
-        public bool RealDice { get; set; }          // stored on line 1
-        public int GameLength { get; set; }         // stored on line 2
-        public int StartingCash { get; set; }       // stored on line 3
-        public double MoneyMultiplier { get; set; } // stored on line 4
-        public bool RandomEvents { get; set; }      // stored on line 5
-        public double AdvertBase { get; set; }      // stored on line 6
+        public int GameLength { get; set; }         // stored on line 1
+        public int StartingCash { get; set; }       // stored on line 2
+        public double MoneyMultiplier { get; set; } // stored on line 3
+        public bool RandomEvents { get; set; }      // stored on line 4
+        public double AdvertBase { get; set; }      // stored on line 5
         //     This data changes thorought the game
-        public int CurrentCash { get; set; }        // stored on line 7
-        public int CurrentDebt { get; set; }        // stored on line 8
-        public double Markup { get; set; }          // stored on line 9
-        public double AdvertBonus { get; set; }     // stored on line 10
-        public double Interest { get; set; }        // stored on line 11
-        public int Inventory { get; set; }          // stored on line 12
-        public int UpgradeLVL { get; set; }         // stored on line 13
-        public int CurrentTurn { get; set; }        // stored on line 14 (in weeks)
+        public int CurrentCash { get; set; }        // stored on line 6
+        public int CurrentDebt { get; set; }        // stored on line 7
+        public double Markup { get; set; }          // stored on line 8
+        public double AdvertBonus { get; set; }     // stored on line 9
+        public double Interest { get; set; }        // stored on line 10
+        public int Inventory { get; set; }          // stored on line 11
+        public int UpgradeLVL { get; set; }         // stored on line 12
+        public int CurrentTurn { get; set; }        // stored on line 13 (measured in weeks)
         //     This data is not stored in the file, it is derived solely from the other stats
         public string UpgradeName { get; set; }     // derived from a list and UpgradeLVL
         public int AdvertTotal { get; set; }        // derived from advert base and AdvertBonus
