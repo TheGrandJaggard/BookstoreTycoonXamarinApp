@@ -25,6 +25,8 @@
 
     <!-- Add "new game" item to the top toolbar -->
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Feedback"
+                     Clicked="OnSendFeedbackClicked" />
         <ToolbarItem Text="New Game"
                      Clicked="OnNewGameClicked" />
     </ContentPage.ToolbarItems>

@@ -47,11 +47,11 @@ namespace Bookstore_Tycoon.Views
                             Date = File.GetCreationTime(filename),
                             // these values all come from the .gamedata.txt file
                             GameName = fileData[0],
-                            GameLength = Convert.ToInt32(fileData[2]),
-                            StartingCash = Convert.ToInt32(fileData[3]),
-                            MoneyMultiplier = Convert.ToDouble(fileData[4]),
-                            RandomEvents = Convert.ToBoolean(fileData[5]),
-                            AdvertBase = Convert.ToDouble(fileData[6]),
+                            GameLength = Convert.ToInt32(fileData[1]),
+                            StartingCash = Convert.ToInt32(fileData[2]),
+                            MoneyMultiplier = Convert.ToDouble(fileData[3]),
+                            RandomEvents = Convert.ToBoolean(fileData[4]),
+                            AdvertBase = Convert.ToDouble(fileData[5]),
                         };
                         BindingContext = game;
                     }
@@ -124,6 +124,9 @@ namespace Bookstore_Tycoon.Views
 
             await Clipboard.SetTextAsync(clipboardData);
             CopyPasteStatusText.Text = "Settings copied successfully";
+
+            SaveGame();
+            await Shell.Current.GoToAsync($"{nameof(GameplayHomePage)}?{nameof(GameplayHomePage.GameID)}={game.Filename}");
         }
 
         async void OnPasteSettings(object sender, EventArgs e)
@@ -186,6 +189,7 @@ namespace Bookstore_Tycoon.Views
                 "1",    // UpgradeLVL
                 "0"     // CurrentTurn
             };
+
 
             // put our data into the file
             File.AppendAllLines(game.Filename, fileData);

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Bookstore_Tycoon.Models;
 using Xamarin.Forms;
-using Xamarin.Essentials;
 
 namespace Bookstore_Tycoon.Views
 {
@@ -24,6 +23,8 @@ namespace Bookstore_Tycoon.Views
             InitializeComponent();
             // Set the BindingContext of the page to a new set of game stats.
             BindingContext = new GameData();
+            // Hide the back button in the toolbar (It don't work :()
+            // NavigationPage.SetHasBackButton(this, false);
         }
 
         void LoadGame(string filename)
@@ -52,7 +53,7 @@ namespace Bookstore_Tycoon.Views
                         Inventory = Convert.ToInt32(fileData[12]),
                         UpgradeLVL = Convert.ToInt32(fileData[12]),
                         CurrentTurn = Convert.ToInt32(fileData[13]),
-                        SatisfactionBonus = 0 // I'm using this for a differant purpose
+                        OtherBinding1 = 2
                     };
                     BindingContext = game;
                     UpdateBindings();
@@ -91,7 +92,7 @@ namespace Bookstore_Tycoon.Views
                 game.CurrentDebt.ToString(),
                 game.Markup.ToString(),
                 game.AdvertBonus.ToString(),
-                (game.Interest + (double)game.SatisfactionBonus / 100).ToString(),
+                (game.Interest + (double)game.OtherBinding1 / 100).ToString(),
                 game.Inventory.ToString(),
                 game.UpgradeLVL.ToString(),
                 game.CurrentTurn.ToString()
@@ -119,7 +120,37 @@ namespace Bookstore_Tycoon.Views
         void UpdateBindings()
         {
             var game = (GameData)BindingContext;
-            InterestText.Text = game.SatisfactionBonus.ToString() + "%";
+
+            switch (game.OtherBinding1)
+            {
+                case 1:
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest -1%";
+                    break;
+                case 2:
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 0%";
+                    break;
+                case 3:
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 1%";
+                    break;
+                case 4:
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 1%";
+                    break;
+                case 5:
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 2%";
+                    break;
+                case 6:
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 2%";
+                    break;
+                default:
+                    InterestText.Text = "Stepper not in range!";
+                    break;
+            }
+
+            InterestDescriptionText.Text = game.CurrentTurn == 5
+                ? "Every monthly management, except for the setup, starts with a roll that determines whether interest increases or deacreases this month. " +
+                    "A roll of one decreases interest by one percent, a two does nothing, " +
+                    "both a three and four increase it by one percent, and a five or six increase it twice that much."
+                : "What did you roll for interest this turn?";
         }
     }
 }

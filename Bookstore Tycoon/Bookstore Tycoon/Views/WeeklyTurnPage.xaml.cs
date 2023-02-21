@@ -209,9 +209,6 @@ namespace Bookstore_Tycoon.Views
                 SatisfactionBonus = (Convert.ToInt32(fileData[12]) + 1) / 2 + ((Convert.ToDouble(fileData[8]) - 0.5) * -5)
             };
 
-            // insert maths here
-
-
             double AdvertBonusIncrease = 0;
             int BooksSold = 0;
 

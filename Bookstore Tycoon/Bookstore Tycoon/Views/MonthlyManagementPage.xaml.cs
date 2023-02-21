@@ -91,14 +91,14 @@ namespace Bookstore_Tycoon.Views
             List<string> fileData = File.ReadAllLines(game.Filename).ToList();
             GameData gameOnFile = new GameData
             {
-                CurrentCash = Convert.ToInt32(fileData[7]),
-                CurrentDebt = Convert.ToInt32(fileData[8]),
-                Markup = Convert.ToDouble(fileData[9]),
-                AdvertBonus = Convert.ToDouble(fileData[10]),
-                Interest = Convert.ToDouble(fileData[11]),
-                Inventory = Convert.ToInt32(fileData[12]),
-                UpgradeLVL = Convert.ToInt32(fileData[13]),
-                CurrentTurn = Convert.ToInt32(fileData[14])
+                CurrentCash = Convert.ToInt32(fileData[6]),
+                CurrentDebt = Convert.ToInt32(fileData[7]),
+                Markup = Convert.ToDouble(fileData[8]),
+                AdvertBonus = Convert.ToDouble(fileData[9]),
+                Interest = Convert.ToDouble(fileData[10]),
+                Inventory = Convert.ToInt32(fileData[11]),
+                UpgradeLVL = Convert.ToInt32(fileData[12]),
+                CurrentTurn = Convert.ToInt32(fileData[13])
             };
 
             // Here I have to do the computations
@@ -178,14 +178,14 @@ namespace Bookstore_Tycoon.Views
             GameData gameOnFile = new GameData
             {
                 // these values all come from the .gamedata.txt file
-                CurrentCash = Convert.ToInt32(fileData[7]),
-                CurrentDebt = Convert.ToInt32(fileData[8]),
-                Markup = Convert.ToDouble(fileData[9]),
-                AdvertBonus = Convert.ToDouble(fileData[10]),
-                Interest = Convert.ToDouble(fileData[11]),
-                Inventory = Convert.ToInt32(fileData[12]),
-                UpgradeLVL = Convert.ToInt32(fileData[13]),
-                CurrentTurn = Convert.ToInt32(fileData[14]),
+                CurrentCash = Convert.ToInt32(fileData[6]),
+                CurrentDebt = Convert.ToInt32(fileData[7]),
+                Markup = Convert.ToDouble(fileData[8]),
+                AdvertBonus = Convert.ToDouble(fileData[9]),
+                Interest = Convert.ToDouble(fileData[10]),
+                Inventory = Convert.ToInt32(fileData[11]),
+                UpgradeLVL = Convert.ToInt32(fileData[12]),
+                CurrentTurn = Convert.ToInt32(fileData[13]),
             };
 
             // Here I have to do the computations

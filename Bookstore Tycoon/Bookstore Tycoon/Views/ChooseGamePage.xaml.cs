@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Bookstore_Tycoon.Models;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace Bookstore_Tycoon.Views
 {
@@ -28,62 +29,6 @@ namespace Bookstore_Tycoon.Views
             foreach (string filename in files)
             {
                 List<string> fileData = File.ReadAllLines(filename).ToList();
-
-                #region FixingFiles (Disabled)
-                /*
-                int count = fileData.Count;
-
-                if (count == 0)
-                {
-                    fileData.Add("Unnamed Game");
-                    File.AppendAllLines(filename, new List<string> { fileData[count] });
-                    Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
-                    count++;
-                }
-                if (count == 1)
-                {
-                    fileData.Add("true");
-                    File.AppendAllLines(filename, new List<string> { fileData[count] });
-                    Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
-                    count++;
-                }
-                if (count == 2)
-                {
-                    fileData.Add("6");
-                    File.AppendAllLines(filename, new List<string> { fileData[count] });
-                    Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
-                    count++;
-                }
-                if (count == 3)
-                {
-                    fileData.Add("500");
-                    File.AppendAllLines(filename, new List<string> { fileData[count] });
-                    Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
-                    count++;
-                }
-                if (count == 4)
-                {
-                    fileData.Add("1.00");
-                    File.AppendAllLines(filename, new List<string> { fileData[count] });
-                    Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
-                    count++;
-                }
-                if (count == 5)
-                {
-                    fileData.Add("true");
-                    File.AppendAllLines(filename, new List<string> { fileData[count] });
-                    Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
-                    count++;
-                }
-                if (count == 6)
-                {
-                    fileData.Add("5.00");
-                    File.AppendAllLines(filename, new List<string> { fileData[count] });
-                    Debug.WriteLine($"Just fixed line {count}, it now equals '{fileData[count]}' ");
-                    count++;
-                }
-                */
-                #endregion
 
                 games.Add(new GameData
                 {
@@ -130,6 +75,11 @@ namespace Bookstore_Tycoon.Views
                 GameData game = (GameData)e.CurrentSelection.FirstOrDefault();
                 await Shell.Current.GoToAsync($"{nameof(GameplayHomePage)}?{nameof(GameplayHomePage.GameID)}={game.Filename}");
             }
+        }
+
+        async void OnSendFeedbackClicked(object sender, EventArgs e)
+        {
+            await Launcher.OpenAsync("https://docs.google.com/forms/d/1zOdPUYkvqt4dosjJ4FnvoB9NjWXDH14P_VdVnO-S0mY");
         }
     }
 }

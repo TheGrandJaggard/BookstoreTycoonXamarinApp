@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Bookstore_Tycoon.Models;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace Bookstore_Tycoon.Views
 {
@@ -33,18 +35,44 @@ namespace Bookstore_Tycoon.Views
                 // Retrieve the note and set it as the BindingContext of the page.
                 List<string> fileData = File.ReadAllLines(filename).ToList();
 
-                if(filename.EndsWith(".gamedata.txt"))
+                if (filename.EndsWith(".gamedata.txt"))
                 {
                     GameData game = new GameData
                     {
                         Filename = filename,
+                        Date = File.GetCreationTime(filename),
+                        // these values all come from the .gamedata.txt file
                         GameName = fileData[0],
                         GameLength = Convert.ToInt32(fileData[1]),
+                        StartingCash = Convert.ToInt32(fileData[2]),
+                        MoneyMultiplier = Convert.ToDouble(fileData[3]),
+                        RandomEvents = Convert.ToBoolean(fileData[4]),
+                        AdvertBase = Convert.ToDouble(fileData[5]),
+                        CurrentCash = Convert.ToInt32(fileData[6]),
+                        CurrentDebt = Convert.ToInt32(fileData[7]),
+                        Markup = Convert.ToDouble(fileData[8]),
+                        AdvertBonus = Convert.ToDouble(fileData[9]),
+                        Interest = Convert.ToDouble(fileData[10]),
+                        Inventory = Convert.ToInt32(fileData[12]),
+                        UpgradeLVL = Convert.ToInt32(fileData[12]),
                         CurrentTurn = Convert.ToInt32(fileData[13]),
-                        Score = (int)(Convert.ToInt32(fileData[8]) / Convert.ToDouble(fileData[4])
-                        + Convert.ToDouble(fileData[9]) * 200
-                        - Convert.ToInt32(fileData[7]) * 1.1)
+                        AdvertTotal = (int)Math.Floor(Convert.ToDouble(fileData[5]) + (Convert.ToDouble(fileData[5]) * Convert.ToDouble(fileData[9]))),
+                        SatisfactionBonus = (Convert.ToInt32(fileData[12]) + 1) / 2 + ((Convert.ToDouble(fileData[8]) - 0.5) * -5),
+                        Score = 0 // this is just as a base, score is dealt with below
                     };
+                    #region Score
+                    double UpgradeCost = 0;
+                    for (double i = 1; i < game.UpgradeLVL; i++)
+                    {
+                        UpgradeCost += Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10;
+                    }
+                    game.Score = (int)((
+                        (UpgradeCost / 2) +
+                        (game.AdvertTotal * 15) +
+                        (game.CurrentCash - game.CurrentDebt) +
+                        (game.Inventory * 100)
+                        ) / game.MoneyMultiplier);
+                    #endregion
                     BindingContext = game;
                 }
                 else
@@ -54,7 +82,7 @@ namespace Bookstore_Tycoon.Views
             }
             catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine("Failed to load game!");
+                Debug.WriteLine("Failed to load game!");
             }
         }
 
@@ -91,14 +119,14 @@ namespace Bookstore_Tycoon.Views
             }
             else
             {
-                ContinueButton.Text = $"Continue to week #{week} of month #{month + 1}";
+                ContinueButton.Text = $"Continue to week {week} of month {month + 1}";
             }
         }
 
         async void OnContinueButtonClicked(object sender, EventArgs e)
         {
             var game = (GameData)BindingContext;
-            var month = Math.Floor(game.CurrentTurn / 5.0) + 1;
+            var month = Math.Floor(game.CurrentTurn / 5.0);
             var week = game.CurrentTurn - month * 5.0;
 
             if (game.CurrentTurn == 0)
@@ -107,7 +135,7 @@ namespace Bookstore_Tycoon.Views
             }
             else if (game.GameLength == month)
             {
-                await Shell.Current.GoToAsync($"{nameof(InterestChangePage)}?{nameof(InterestChangePage.GameID)}={game.Filename}");
+                await Shell.Current.GoToAsync($"{nameof(GameStatsPage)}?{nameof(GameStatsPage.GameID)}={game.Filename}");
             }
             else if (week == 0)
             {
@@ -143,6 +171,11 @@ namespace Bookstore_Tycoon.Views
         {
             var game =(GameData)BindingContext;
             await Shell.Current.GoToAsync($"{nameof(GameStatsPage)}?{nameof(GameStatsPage.GameID)}={game.Filename}");
+        }
+
+        async void OnSendFeedbackClicked(object sender, EventArgs e)
+        {
+            await Launcher.OpenAsync("https://docs.google.com/forms/d/1zOdPUYkvqt4dosjJ4FnvoB9NjWXDH14P_VdVnO-S0mY");
         }
     }
 }

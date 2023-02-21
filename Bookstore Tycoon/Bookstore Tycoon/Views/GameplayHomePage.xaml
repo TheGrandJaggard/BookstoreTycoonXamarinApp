@@ -5,6 +5,8 @@
              Title="{Binding GameName}">
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Feedback"
+                     Clicked="OnSendFeedbackClicked" />
         <ToolbarItem Text="Stats"
                      Clicked="OnGoToStatsPageClicked" />
     </ContentPage.ToolbarItems>

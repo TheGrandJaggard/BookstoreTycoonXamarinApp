@@ -34,7 +34,7 @@ namespace Bookstore_Tycoon.Views
                 // Retrieve the game data and set it as the BindingContext of the page.
                 List<string> fileData = File.ReadAllLines(filename).ToList();
 
-                if(filename.EndsWith(".gamedata.txt"))
+                if (filename.EndsWith(".gamedata.txt"))
                 {
                     GameData game = new GameData
                     {
@@ -57,15 +57,20 @@ namespace Bookstore_Tycoon.Views
                         CurrentTurn = Convert.ToInt32(fileData[13]),
                         AdvertTotal = (int)Math.Floor(Convert.ToDouble(fileData[5]) + (Convert.ToDouble(fileData[5]) * Convert.ToDouble(fileData[9]))),
                         SatisfactionBonus = (Convert.ToInt32(fileData[12]) + 1) / 2 + ((Convert.ToDouble(fileData[8]) - 0.5) * -5),
-                        Score = (int)( Convert.ToInt32(fileData[7]) / Convert.ToDouble(fileData[4])
-                        + Convert.ToDouble(fileData[10]) * 200
-                        - Convert.ToInt32(fileData[8]) * 1.1)
+                        Score = 0 // this is just as a base, score is dealt with below
                     };
-                    #region Score += UpgradeCost
-                    for (double i = game.UpgradeLVL; i < game.UpgradeLVL; i++)
+                    #region Score
+                    double UpgradeCost = 0;
+                    for (double i = 1; i < game.UpgradeLVL; i++)
                     {
-                        game.Score += (int)(Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10);
+                        UpgradeCost += Math.Floor(Math.Pow(i / 2, 1.9) * 40) + 10;
                     }
+                    game.Score = (int)((
+                        (UpgradeCost / 2) +
+                        (game.AdvertTotal * 15) +
+                        (game.CurrentCash - game.CurrentDebt) +
+                        (game.Inventory * 100)
+                        ) / game.MoneyMultiplier);
                     #endregion
 
                     BindingContext = game;
@@ -104,7 +109,7 @@ namespace Bookstore_Tycoon.Views
             InterestText.Text = "Current Interest: " + (game.Interest * 100) + "%";
             InventoryText.Text = "Inventory: " + game.Inventory;
             UpgradeLVLText.Text = "Upgrade Level: " + game.UpgradeLVL;
-            CurrentTurnText.Text = "Current Turn: " + game.CurrentTurn;
+            CurrentTurnText.Text = game.CurrentTurn == game.GameLength * 5 ? "Current Turn: Game Over!" : "Current Turn: " + game.CurrentTurn;
             AdvertTotalText.Text = "Advertisment Total: " + game.AdvertTotal;
             SatisfactionBonusText.Text = "Satisfaction: " + game.SatisfactionBonus;
             ScoreText.Text = "Your Score: " + game.Score;

@@ -27,12 +27,9 @@
                       Icon="icon_feed.png"
                       ContentTemplate="{DataTemplate views:ChooseGamePage}" />
         <!--
-        <ShellContent Title="Rules"
-                      Icon="icon_about.png"
-                      ContentTemplate="{DataTemplate views:PageName}" />
-        -->
         <ShellContent Title="About"
                       Icon="icon_about.png"
                       ContentTemplate="{DataTemplate views:AboutPage}" />
+        -->
     </TabBar>
 </Shell>

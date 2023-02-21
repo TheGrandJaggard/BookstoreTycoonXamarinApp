@@ -9,17 +9,17 @@
                      Clicked="OnGoToStatsPageClicked" />
     </ContentPage.ToolbarItems>
 
-    <!-- Layout children vertically -->
+    <!-- Layout children vertically 
+         Try: NavigationPage.HasBackButton="False"-->
     <ScrollView>
         <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
 
-            
-            <Label Text="How much did interest change this turn?" />
+            <Label x:Name="InterestDescriptionText"/>
             <Label x:Name="InterestText"/>
-            <Stepper Maximum="3"
-                     Minimum="-1"
+            <Stepper Maximum="6"
+                     Minimum="1"
                      Increment="1"
-                     Value="{Binding SatisfactionBonus}"
+                     Value="{Binding OtherBinding1}"
                      ValueChanged="OnUpdateBindings"/>
 
             <Button Text="Continue"
