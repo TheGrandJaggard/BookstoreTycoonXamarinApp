@@ -11,16 +11,25 @@
 
     <!-- Layout children vertically 
          Try: NavigationPage.HasBackButton="False"-->
+    
     <ScrollView>
         <StackLayout Margin="{StaticResource PageMargin}" InputTransparent="False">
-
             <Label x:Name="InterestDescriptionText"/>
-            <Label x:Name="InterestText"/>
-            <Stepper Maximum="6"
-                     Minimum="1"
-                     Increment="1"
-                     Value="{Binding OtherBinding1}"
-                     ValueChanged="OnUpdateBindings"/>
+
+            <Button x:Name="InterestRollButton"
+                    Text="Roll for interest"
+                    Clicked="OnInterestRollClicked"/>
+
+            <Grid RowDefinitions="*,*">
+                <Label Grid.Column="0"
+                       x:Name="InterestText"/>
+                <Stepper Grid.Column="1"
+                         Maximum="6"
+                         Minimum="1"
+                         Increment="1"
+                         Value="{Binding OtherBinding1}"
+                         ValueChanged="OnUpdateBindings"/>
+            </Grid>
 
             <Button Text="Continue"
                     Clicked="OnContinueButtonClicked"/>

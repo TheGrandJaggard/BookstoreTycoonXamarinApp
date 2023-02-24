@@ -16,6 +16,9 @@
 
             <!-- Roll x:AdvertTotal dice, How many customers do you get? (x:name = AdvertisingRoll) -->
             <Label x:Name="AdvertisingRoll"/>
+            <Button x:Name="AdvertisingRollButton"
+                    Text="Roll for customers"
+                    Clicked="OnAdvertisingRollClicked"/>
             <Grid ColumnDefinitions="*,*">
                 <Label Grid.Row="0"
                        Grid.Column="0"
@@ -27,11 +30,14 @@
                          Minimum="0"
                          Increment="1"
                          Value="{Binding Customers}"
-                         ValueChanged="OnUpdateBindings"/>
+                         ValueChanged="OnRefreshSatisfactionValues"/>
             </Grid>
 
             <!-- Now roll x:Customer dice. What number of each roll did you get? (x:name = SatisfactionRoll) -->
             <Label x:Name="SatisfactionRoll"/>
+            <Button x:Name="SatisfactionRollButton"
+                    Text="Roll for satisfaction"
+                    Clicked="OnSatisfactionRollClicked"/>
             <Grid x:Name="SatisfactionRollsGrid"
                   ColumnDefinitions="*,*">
                 <Label Grid.Row="0"
@@ -44,7 +50,7 @@
                          Minimum="-0.1"
                          Increment="1"
                          Value="{Binding SatisfactionRoll0}"
-                         ValueChanged="OnUpdateBindings"/>
+                         ValueChanged="OnRefreshBookValues"/>
                 
                 <Label Grid.Row="1"
                        Grid.Column="0"
@@ -56,7 +62,7 @@
                          Minimum="-0.1"
                          Increment="1"
                          Value="{Binding SatisfactionRoll1}"
-                         ValueChanged="OnUpdateBindings"/>
+                         ValueChanged="OnRefreshBookValues"/>
 
                 <Label Grid.Row="2"
                        Grid.Column="0"
@@ -68,7 +74,7 @@
                          Minimum="-0.1"
                          Increment="1"
                          Value="{Binding SatisfactionRoll2}"
-                         ValueChanged="OnUpdateBindings"/>
+                         ValueChanged="OnRefreshBookValues"/>
 
                 <Label Grid.Row="3"
                        Grid.Column="0"
@@ -80,7 +86,7 @@
                          Minimum="-0.1"
                          Increment="1"
                          Value="{Binding SatisfactionRoll3}"
-                         ValueChanged="OnUpdateBindings"/>
+                         ValueChanged="OnRefreshBookValues"/>
 
                 <Label Grid.Row="4"
                        Grid.Column="0"
@@ -92,7 +98,7 @@
                          Minimum="-0.1"
                          Increment="1"
                          Value="{Binding SatisfactionRoll4}"
-                         ValueChanged="OnUpdateBindings"/>
+                         ValueChanged="OnRefreshBookValues"/>
 
                 <Label Grid.Row="5"
                        Grid.Column="0"
@@ -104,7 +110,7 @@
                          Minimum="-0.1"
                          Increment="1"
                          Value="{Binding SatisfactionRoll5}"
-                         ValueChanged="OnUpdateBindings"/>
+                         ValueChanged="OnRefreshBookValues"/>
             </Grid>
 
             <!-- Results, measured in Books and AdvertBonus increase (x:name = SatsifactionResults) -->
@@ -112,6 +118,9 @@
             
             <!-- Roll x:Books dice, What number of each roll did you get? (x:name = BooksRoll) -->
             <Label x:Name="BookRoll"/>
+            <Button x:Name="BookRollButton"
+                    Text="Roll for books"
+                    Clicked="OnBookRollClicked"/>
             <Grid x:Name="BookRollsGrid"
                   ColumnDefinitions="*,*">
                 <Label Grid.Row="0"

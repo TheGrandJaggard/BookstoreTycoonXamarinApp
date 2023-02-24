@@ -73,6 +73,31 @@ namespace Bookstore_Tycoon.Views
         {
             var game = (GameData)BindingContext;
 
+            switch (game.OtherBinding1)
+            {
+                case 1:
+                    game.OtherBinding2 = -1;
+                    break;
+                case 2:
+                    game.OtherBinding2 = 0;
+                    break;
+                case 3:
+                    game.OtherBinding2 = 1;
+                    break;
+                case 4:
+                    game.OtherBinding2 = 1;
+                    break;
+                case 5:
+                    game.OtherBinding2 = 2;
+                    break;
+                case 6:
+                    game.OtherBinding2 = 2;
+                    break;
+                default:
+                    InterestText.Text = "Stepper not in range!";
+                    break;
+            }
+
             // we delete the file to clear it then make a new one with the same name
             if (File.Exists(game.Filename))
             {
@@ -92,7 +117,7 @@ namespace Bookstore_Tycoon.Views
                 game.CurrentDebt.ToString(),
                 game.Markup.ToString(),
                 game.AdvertBonus.ToString(),
-                (game.Interest + (double)game.OtherBinding1 / 100).ToString(),
+                (game.Interest + game.OtherBinding2 / 100.0).ToString(),
                 game.Inventory.ToString(),
                 game.UpgradeLVL.ToString(),
                 game.CurrentTurn.ToString()
@@ -108,12 +133,20 @@ namespace Bookstore_Tycoon.Views
 
         async void OnGoToStatsPageClicked(object sender, EventArgs e)
         {
-            var game = (GameData)BindingContext;
+            GameData game = (GameData)BindingContext;
             await Shell.Current.GoToAsync($"{nameof(GameStatsPage)}?{nameof(GameStatsPage.GameID)}={game.Filename}");
         }
 
         void OnUpdateBindings(object sender, EventArgs e)
         {
+            UpdateBindings();
+        }
+
+        void OnInterestRollClicked(object sender, EventArgs e)
+        {
+            GameData game = (GameData)BindingContext;
+            game.OtherBinding1 = new Random().Next(1, 7);
+
             UpdateBindings();
         }
 
@@ -124,22 +157,22 @@ namespace Bookstore_Tycoon.Views
             switch (game.OtherBinding1)
             {
                 case 1:
-                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest -1%";
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + " = interest -1%";
                     break;
                 case 2:
-                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 0%";
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + " = interest 0%";
                     break;
                 case 3:
-                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 1%";
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + " = interest 1%";
                     break;
                 case 4:
-                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 1%";
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + " = interest 1%";
                     break;
                 case 5:
-                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 2%";
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + " = interest 2%";
                     break;
                 case 6:
-                    InterestText.Text = "Roll of " + game.OtherBinding1 + "= interest 2%";
+                    InterestText.Text = "Roll of " + game.OtherBinding1 + " = interest 2%";
                     break;
                 default:
                     InterestText.Text = "Stepper not in range!";

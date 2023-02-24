@@ -16,6 +16,7 @@ namespace Bookstore_Tycoon.Models
         public int SatisfactionRoll3 { get; set; }
         public int SatisfactionRoll4 { get; set; }
         public int SatisfactionRoll5 { get; set; }
+        public int BooksSold { get; set; }
         public int BookRoll0 { get; set; }
         public int BookRoll1 { get; set; }
         public int BookRoll2 { get; set; }
