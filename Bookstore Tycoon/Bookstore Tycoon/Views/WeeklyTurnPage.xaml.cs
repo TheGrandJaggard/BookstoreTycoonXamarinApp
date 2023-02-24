@@ -12,6 +12,9 @@ namespace Bookstore_Tycoon.Views
     public partial class WeeklyTurnPage : ContentPage
     {
         private static readonly Random rnd = new Random();
+        private bool AdvertisingRollClicked = false;
+        private bool SatisfactionRollClicked = false;
+        private bool BookRollClicked = false;
 
         public string GameID
         {
@@ -223,9 +226,7 @@ namespace Bookstore_Tycoon.Views
                 }
             }
 
-            AdvertisingRollButton.IsEnabled = false;
-            CustomersStepper.IsEnabled = false;
-            SatisfactionRollButton.IsEnabled = true;
+            AdvertisingRollClicked = true;
 
             UpdateBindings();
         }
@@ -262,14 +263,7 @@ namespace Bookstore_Tycoon.Views
                 }
             }
 
-            SatisfactionRollButton.IsEnabled = false;
-            SatisfactionRoll0Stepper.IsEnabled = false;
-            SatisfactionRoll1Stepper.IsEnabled = false;
-            SatisfactionRoll2Stepper.IsEnabled = false;
-            SatisfactionRoll3Stepper.IsEnabled = false;
-            SatisfactionRoll4Stepper.IsEnabled = false;
-            SatisfactionRoll5Stepper.IsEnabled = false;
-            BookRollButton.IsEnabled = true;
+            SatisfactionRollClicked = true;
 
             UpdateBindings();
         }
@@ -306,6 +300,8 @@ namespace Bookstore_Tycoon.Views
                 }
             }
 
+            BookRollClicked = true;
+            //instead of
             BookRollButton.IsEnabled = false;
             BookRoll0Stepper.IsEnabled = false;
             BookRoll1Stepper.IsEnabled = false;
@@ -411,14 +407,7 @@ namespace Bookstore_Tycoon.Views
             else { BookRoll5Gained = rolls.BookRoll5; }
             #endregion Dealing with Inventory limits
 
-            #region Limiting maximums and setting values for Steppers
-
-            CustomersStepper.Maximum = game.AdvertTotal * 2;
-
-
-            int SatisfactionRollsLeft = rolls.Customers - (rolls.SatisfactionRoll0 + rolls.SatisfactionRoll1 + rolls.SatisfactionRoll2
-                                                        + rolls.SatisfactionRoll3 + rolls.SatisfactionRoll4 + rolls.SatisfactionRoll5);
-
+            #region Setting values for Steppers
             SatisfactionRoll0Stepper.Value = rolls.SatisfactionRoll0;
             SatisfactionRoll1Stepper.Value = rolls.SatisfactionRoll1;
             SatisfactionRoll2Stepper.Value = rolls.SatisfactionRoll2;
@@ -426,29 +415,185 @@ namespace Bookstore_Tycoon.Views
             SatisfactionRoll4Stepper.Value = rolls.SatisfactionRoll4;
             SatisfactionRoll5Stepper.Value = rolls.SatisfactionRoll5;
 
-            SatisfactionRoll0Stepper.Maximum = rolls.SatisfactionRoll0 + SatisfactionRollsLeft;
-            SatisfactionRoll1Stepper.Maximum = rolls.SatisfactionRoll1 + SatisfactionRollsLeft;
-            SatisfactionRoll2Stepper.Maximum = rolls.SatisfactionRoll2 + SatisfactionRollsLeft;
-            SatisfactionRoll3Stepper.Maximum = rolls.SatisfactionRoll3 + SatisfactionRollsLeft;
-            SatisfactionRoll4Stepper.Maximum = rolls.SatisfactionRoll4 + SatisfactionRollsLeft;
-            SatisfactionRoll5Stepper.Maximum = rolls.SatisfactionRoll5 + SatisfactionRollsLeft;
-
-            int BookRollsLeft = rolls.BooksSold - (rolls.BookRoll0 + rolls.BookRoll1 + rolls.BookRoll2
-                                          + rolls.BookRoll3 + rolls.BookRoll4 + rolls.BookRoll5);
-
             BookRoll0Stepper.Value = rolls.BookRoll0;
             BookRoll1Stepper.Value = rolls.BookRoll1;
             BookRoll2Stepper.Value = rolls.BookRoll2;
             BookRoll3Stepper.Value = rolls.BookRoll3;
             BookRoll4Stepper.Value = rolls.BookRoll4;
             BookRoll5Stepper.Value = rolls.BookRoll5;
+            #endregion
 
-            BookRoll0Stepper.Maximum = rolls.BookRoll0 + BookRollsLeft;
-            BookRoll1Stepper.Maximum = rolls.BookRoll1 + BookRollsLeft;
-            BookRoll2Stepper.Maximum = rolls.BookRoll2 + BookRollsLeft;
-            BookRoll3Stepper.Maximum = rolls.BookRoll3 + BookRollsLeft;
-            BookRoll4Stepper.Maximum = rolls.BookRoll4 + BookRollsLeft;
-            BookRoll5Stepper.Maximum = rolls.BookRoll5 + BookRollsLeft;
+            #region Limiting maximums for steppers
+            if (AdvertisingRollClicked)
+            {
+                AdvertisingRollButton.IsEnabled = false;
+                CustomersStepper.IsEnabled = false;
+                SatisfactionRollButton.IsEnabled = true;
+            }
+            CustomersStepper.Maximum = game.AdvertTotal * 2;
+
+            int SatisfactionRollsLeft = rolls.Customers - (rolls.SatisfactionRoll0 + rolls.SatisfactionRoll1 + rolls.SatisfactionRoll2
+                                                        + rolls.SatisfactionRoll3 + rolls.SatisfactionRoll4 + rolls.SatisfactionRoll5);
+            if (SatisfactionRollClicked)
+            {
+                SatisfactionRollButton.IsEnabled = false;
+                SatisfactionRoll0Stepper.IsEnabled = false;
+                SatisfactionRoll1Stepper.IsEnabled = false;
+                SatisfactionRoll2Stepper.IsEnabled = false;
+                SatisfactionRoll3Stepper.IsEnabled = false;
+                SatisfactionRoll4Stepper.IsEnabled = false;
+                SatisfactionRoll5Stepper.IsEnabled = false;
+                BookRollButton.IsEnabled = true;
+            }
+            else
+            {
+                if (rolls.SatisfactionRoll0 + SatisfactionRollsLeft == 0)
+                {
+                    SatisfactionRoll0Stepper.Maximum = 1;
+                    SatisfactionRoll0Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    SatisfactionRoll0Stepper.Maximum = rolls.SatisfactionRoll0 + SatisfactionRollsLeft;
+                    SatisfactionRoll0Stepper.IsEnabled = true;
+                }
+
+                if (rolls.SatisfactionRoll1 + SatisfactionRollsLeft == 0)
+                {
+                    SatisfactionRoll1Stepper.Maximum = 1;
+                    SatisfactionRoll1Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    SatisfactionRoll1Stepper.Maximum = rolls.SatisfactionRoll1 + SatisfactionRollsLeft;
+                    SatisfactionRoll1Stepper.IsEnabled = true;
+                }
+
+                if (rolls.SatisfactionRoll2 + SatisfactionRollsLeft == 0)
+                {
+                    SatisfactionRoll2Stepper.Maximum = 1;
+                    SatisfactionRoll2Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    SatisfactionRoll2Stepper.Maximum = rolls.SatisfactionRoll2 + SatisfactionRollsLeft;
+                    SatisfactionRoll2Stepper.IsEnabled = true;
+                }
+
+                if (rolls.SatisfactionRoll3 + SatisfactionRollsLeft == 0)
+                {
+                    SatisfactionRoll3Stepper.Maximum = 1;
+                    SatisfactionRoll3Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    SatisfactionRoll3Stepper.Maximum = rolls.SatisfactionRoll3 + SatisfactionRollsLeft;
+                    SatisfactionRoll3Stepper.IsEnabled = true;
+                }
+
+                if (rolls.SatisfactionRoll4 + SatisfactionRollsLeft == 0)
+                {
+                    SatisfactionRoll4Stepper.Maximum = 1;
+                    SatisfactionRoll4Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    SatisfactionRoll4Stepper.Maximum = rolls.SatisfactionRoll4 + SatisfactionRollsLeft;
+                    SatisfactionRoll4Stepper.IsEnabled = true;
+                }
+
+                if (rolls.SatisfactionRoll5 + SatisfactionRollsLeft == 0)
+                {
+                    SatisfactionRoll5Stepper.Maximum = 1;
+                    SatisfactionRoll5Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    SatisfactionRoll5Stepper.Maximum = rolls.SatisfactionRoll5 + SatisfactionRollsLeft;
+                    SatisfactionRoll5Stepper.IsEnabled = true;
+                }
+            }
+
+            int BookRollsLeft = rolls.BooksSold - (rolls.BookRoll0 + rolls.BookRoll1 + rolls.BookRoll2
+                                          + rolls.BookRoll3 + rolls.BookRoll4 + rolls.BookRoll5);
+            if (BookRollClicked)
+            {
+                BookRollButton.IsEnabled = false;
+                BookRoll0Stepper.IsEnabled = false;
+                BookRoll1Stepper.IsEnabled = false;
+                BookRoll2Stepper.IsEnabled = false;
+                BookRoll3Stepper.IsEnabled = false;
+                BookRoll4Stepper.IsEnabled = false;
+                BookRoll5Stepper.IsEnabled = false;
+            }
+            else
+            {
+                if (rolls.BookRoll0 + BookRollsLeft == 0)
+                {
+                    BookRoll0Stepper.Maximum = 1;
+                    BookRoll0Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    BookRoll0Stepper.Maximum = rolls.BookRoll0 + BookRollsLeft;
+                    BookRoll0Stepper.IsEnabled = true;
+                }
+
+                if (rolls.BookRoll1 + BookRollsLeft == 0)
+                {
+                    BookRoll1Stepper.Maximum = 1;
+                    BookRoll1Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    BookRoll1Stepper.Maximum = rolls.BookRoll1 + BookRollsLeft;
+                    BookRoll1Stepper.IsEnabled = true;
+                }
+
+                if (rolls.BookRoll2 + BookRollsLeft == 0)
+                {
+                    BookRoll2Stepper.Maximum = 1;
+                    BookRoll2Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    BookRoll2Stepper.Maximum = rolls.BookRoll2 + BookRollsLeft;
+                    BookRoll2Stepper.IsEnabled = true;
+                }
+
+                if (rolls.BookRoll3 + BookRollsLeft == 0)
+                {
+                    BookRoll3Stepper.Maximum = 1;
+                    BookRoll3Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    BookRoll3Stepper.Maximum = rolls.BookRoll3 + BookRollsLeft;
+                    BookRoll3Stepper.IsEnabled = true;
+                }
+
+                if (rolls.BookRoll4 + BookRollsLeft == 0)
+                {
+                    BookRoll4Stepper.Maximum = 1;
+                    BookRoll4Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    BookRoll4Stepper.Maximum = rolls.BookRoll4 + BookRollsLeft;
+                    BookRoll4Stepper.IsEnabled = true;
+                }
+
+                if (rolls.BookRoll5 + BookRollsLeft == 0)
+                {
+                    BookRoll5Stepper.Maximum = 1;
+                    BookRoll5Stepper.IsEnabled = false;
+                }
+                else
+                {
+                    BookRoll5Stepper.Maximum = rolls.BookRoll5 + BookRollsLeft;
+                    BookRoll5Stepper.IsEnabled = true;
+                }
+            }
             #endregion
 
             int CashIncrease = (int)( ( (BookRoll0Gained * 20) + (BookRoll1Gained * 30) + (BookRoll2Gained * 40) +
@@ -488,7 +633,7 @@ namespace Bookstore_Tycoon.Views
                 SatisfactionRoll4Text.Text = $"Rolls of 5 (Satisfaction +2):    {rolls.SatisfactionRoll4}";
                 SatisfactionRoll5Text.Text = $"Rolls of 6 (Satisfaction +3):    {rolls.SatisfactionRoll5}";
 
-                SatsifactionResults.Text = $"The roll that you just made is the 'Satisfaction Roll.' " +
+                SatisfactionResults.Text = $"The roll that you just made is the 'Satisfaction Roll.' " +
                     $"This effects how happy people are with your store. " +
                     $"Each customer's satisfaction roll result is added to your satisfaction bonus. " +
                     $"(For you this is {game.SatisfactionBonus}.) " +
@@ -540,7 +685,7 @@ namespace Bookstore_Tycoon.Views
                 SatisfactionRoll4Text.Text = $"Rolls of 5:    {rolls.SatisfactionRoll4}";
                 SatisfactionRoll5Text.Text = $"Rolls of 6:    {rolls.SatisfactionRoll5}";
 
-                SatsifactionResults.Text = $"This week you sell {rolls.BooksSold} books." +
+                SatisfactionResults.Text = $"This week you sell {rolls.BooksSold} books." +
                     Environment.NewLine + $"Your advertisment bonus goes up {AdvertBonusIncrease}% from good reviews.";
 
                 BookRoll.Text = $"Roll {rolls.BooksSold} dice. What number of each roll did you get?";

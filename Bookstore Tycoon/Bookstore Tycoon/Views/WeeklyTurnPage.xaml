@@ -47,7 +47,7 @@
                          Grid.Row="0"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding SatisfactionRoll0}"
                          ValueChanged="OnRefreshBookValues"/>
@@ -59,7 +59,7 @@
                          Grid.Row="1"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding SatisfactionRoll1}"
                          ValueChanged="OnRefreshBookValues"/>
@@ -71,7 +71,7 @@
                          Grid.Row="2"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding SatisfactionRoll2}"
                          ValueChanged="OnRefreshBookValues"/>
@@ -83,7 +83,7 @@
                          Grid.Row="3"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding SatisfactionRoll3}"
                          ValueChanged="OnRefreshBookValues"/>
@@ -95,7 +95,7 @@
                          Grid.Row="4"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding SatisfactionRoll4}"
                          ValueChanged="OnRefreshBookValues"/>
@@ -107,14 +107,14 @@
                          Grid.Row="5"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding SatisfactionRoll5}"
                          ValueChanged="OnRefreshBookValues"/>
             </Grid>
 
             <!-- Results, measured in Books and AdvertBonus increase (x:name = SatsifactionResults) -->
-            <Label x:Name="SatsifactionResults"/>
+            <Label x:Name="SatisfactionResults"/>
             
             <!-- Roll x:Books dice, What number of each roll did you get? (x:name = BooksRoll) -->
             <Label x:Name="BookRoll"/>
@@ -130,7 +130,7 @@
                          Grid.Row="0"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding BookRoll0}"
                          ValueChanged="OnUpdateBindings"/>
@@ -142,7 +142,7 @@
                          Grid.Row="1"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding BookRoll1}"
                          ValueChanged="OnUpdateBindings"/>
@@ -154,7 +154,7 @@
                          Grid.Row="2"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding BookRoll2}"
                          ValueChanged="OnUpdateBindings"/>
@@ -166,7 +166,7 @@
                          Grid.Row="3"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding BookRoll3}"
                          ValueChanged="OnUpdateBindings"/>
@@ -178,7 +178,7 @@
                          Grid.Row="4"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding BookRoll4}"
                          ValueChanged="OnUpdateBindings"/>
@@ -190,7 +190,7 @@
                          Grid.Row="5"
                          Grid.Column="1"
                          Maximum="15"
-                         Minimum="-0.1"
+                         Minimum="0"
                          Increment="1"
                          Value="{Binding BookRoll5}"
                          ValueChanged="OnUpdateBindings"/>

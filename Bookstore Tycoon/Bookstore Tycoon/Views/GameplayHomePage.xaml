@@ -27,7 +27,7 @@
                 <!-- Layout children in two columns -->
 
                 <Button Grid.Column="0"
-                        Text="Back to Main Menu"
+                        Text="Back to Menu"
                         Clicked="OnBackToMainMenuButtonClicked" />
                 
                 <Button Grid.Column="1"

@@ -71,12 +71,12 @@
 
                 <Button Grid.Column="0"
                         Grid.Row="1"
-                        Text="Copy and Continue"
+                        Text="Copy"
                         Clicked="OnCopySettings" />
 
                 <Button Grid.Column="1"
                         Grid.Row="1"
-                        Text="Paste and Continue"
+                        Text="Paste"
                         Clicked="OnPasteSettings"/>
             </Grid>
             <Label x:Name="CopyPasteStatusText"
